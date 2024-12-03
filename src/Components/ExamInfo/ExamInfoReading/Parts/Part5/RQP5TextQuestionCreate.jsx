@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Textarea, Input, Checkbox } from "@material-tailwind/react";
 
 
-export default function RQP3Create({ isOpen, onClose }) {
+export default function RQP5TextQuestionCreate({ isOpen, onClose }) {
     const [question, setQuestion] = useState("");
     const [optionA, setOptionA] = useState('');
     const [optionB, setOptionB] = useState('');

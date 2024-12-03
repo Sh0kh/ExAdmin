@@ -1,15 +1,9 @@
-
+import React from "react";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
-import { useState } from "react";
 import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react"; // Import Material Tailwind Accordion components
-import React from "react";
 
-export default function RQP3Text({ editModal, deleteModal }) {
-
-
-
-
+export default function RQP5Question({ EditModal, DeleteModal }) {
     const [open, setOpen] = React.useState(false); // Use boolean state to track if the accordion is open
 
     const handleToggle = (index) => {
@@ -17,11 +11,14 @@ export default function RQP3Text({ editModal, deleteModal }) {
     };
 
     const questions = [
-        " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, voluptatum totam? Pariatur, et non? Alias ad accusamus, illum quia delectus vel, necessitatibus veniam voluptatibus quidem reiciendis velit, doloribus sunt rerum.",
-        " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, voluptatum totam? Pariatur, et non? Alias ad accusamus, illum quia delectus vel, necessitatibus veniam voluptatibus quidem reiciendis velit, doloribus sunt rerum.",
-        " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, voluptatum totam? Pariatur, et non? Alias ad accusamus, illum quia delectus vel, necessitatibus veniam voluptatibus quidem reiciendis velit, doloribus sunt rerum.",
-        " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, voluptatum totam? Pariatur, et non? Alias ad accusamus, illum quia delectus vel, necessitatibus veniam voluptatibus quidem reiciendis velit, doloribus sunt rerum.",
-        " Lorem ipsum dolor sit amet consectetur, adipisicing elit. Assumenda, voluptatum totam? Pariatur, et non? Alias ad accusamus, illum quia delectus vel, necessitatibus veniam voluptatibus quidem reiciendis velit, doloribus sunt rerum.",
+        "Why isn't Alex allowed to go to school?",
+        "Why did John fail his exam?",
+        "What is the capital of France?",
+        "What is the square root of 64?",
+        "How many continents are there?",
+        "What is the largest planet in our solar system?",
+        "What is the boiling point of water?",
+        "Who invented the telephone?"
     ];
 
     return (
@@ -33,7 +30,7 @@ export default function RQP3Text({ editModal, deleteModal }) {
                         className="bg-MainColor p-4 rounded-[10px] cursor-pointer"
                     >
                         <div className="flex items-center justify-between w-full">
-                            <h1 className="text-white">Paragraph {index + 1}</h1>
+                            <h1 className="text-white">Question {index + 1}</h1>
                             <div className="flex items-center gap-2">
                                 {/* Edit Button */}
                                 <button
@@ -59,23 +56,26 @@ export default function RQP3Text({ editModal, deleteModal }) {
                             <div className="flex items-start gap-[10px] flex-col mt-[10px]">
                                 <div className="w-full">
                                     <div className="flex items-end gap-[5px] text-[#54f054]">
-                                        <span className="font-bold">A</span>
-                                    
+                                        <span className="font-bold">A)</span>
+                                        <span >Because he was sick</span>
                                     </div>
                                 </div>
                                 <div className="w-full">
                                     <div className="flex items-end gap-[5px]">
-                                        <span className="font-bold">B</span>
+                                        <span className="font-bold">B)</span>
+                                        <span>Because he was sick</span>
                                     </div>
                                 </div>
                                 <div className="w-full">
                                     <div className="flex items-end gap-[5px]">
-                                        <span className="font-bold">C</span>
+                                        <span className="font-bold">C)</span>
+                                        <span>Because he was sick</span>
                                     </div>
                                 </div>
                                 <div className="w-full">
                                     <div className="flex items-end gap-[5px]">
-                                        <span className="font-bold">D</span>
+                                        <span className="font-bold">D)</span>
+                                        <span>Because he was sick</span>
                                     </div>
                                 </div>
                             </div>
@@ -84,5 +84,5 @@ export default function RQP3Text({ editModal, deleteModal }) {
                 </Accordion>
             ))}
         </div>
-    )
+    );
 }
