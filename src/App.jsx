@@ -28,6 +28,10 @@ import SpeakingPerson from "./Components/ExamCheck/Speaking/SpeakingPerson";
 import Reyting from "./Pages/Reyting";
 import ReadingPart4 from "./Components/ExamInfo/ExamInfoReading/Parts/Part4/ReadingPart4";
 import ReadingPart5 from "./Components/ExamInfo/ExamInfoReading/Parts/Part5/ReadingPart5";
+import ExamInfoSpeaking from "./Pages/ExamInfoSpeaking";
+import SpeakingPart2 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part2/SpeakingPart2";
+import SpeakingPart1 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part1/SpeakingPart1";
+import SpeakingPart1_2 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part1/SpeakingPart1_2";
 
 function App() {
   return (
@@ -70,6 +74,12 @@ function App() {
             {/* Writing Parts */}
             <Route path="/exam/1/writing/part_1" element={<WritingPart1 />} />
             {/* Writing Parts */}
+
+            <Route path="/exam/1/speaking" element={<ExamInfoSpeaking/>}/>
+
+            <Route path="/exam/1/speaking/part_1" element={<SpeakingPart1/>}/>
+            <Route path="/exam/1/speaking/part_1.2" element={<SpeakingPart1_2/>}/>
+            <Route path="/exam/1/speaking/part_2" element={<SpeakingPart2/>}/>
           </Route>
         </Route>
       </Routes>

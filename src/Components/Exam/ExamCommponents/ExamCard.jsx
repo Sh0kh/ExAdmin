@@ -55,9 +55,11 @@ export default function ExamCard({ isOpenEditModal, isOpenDeleteModal }) {
                                             Reading
                                         </button>
                                     </NavLink>
-                                    <button className="bg-[white] text-MainColor px-[25px] border-[2px] rounded-[5px] font-bold duration-500 py-[5px] hover:bg-transparent hover:text-white">
-                                        Speaking
-                                    </button>
+                                    <NavLink to={'/exam/1/Speaking'}>
+                                        <button className="bg-[white] text-MainColor px-[25px] border-[2px] rounded-[5px] font-bold duration-500 py-[5px] hover:bg-transparent hover:text-white">
+                                            Speaking
+                                        </button>
+                                    </NavLink>
                                     <NavLink to={'/exam/1/writing'}>
                                         <button className="bg-[white] text-MainColor px-[28px] border-[2px] rounded-[5px] font-bold duration-500 py-[5px] hover:bg-transparent hover:text-white">
                                             Writing
