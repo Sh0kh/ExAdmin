@@ -20,16 +20,54 @@ export default function WritingPersonResult({ isOpen, onClose }) {
                             </button>
                         </div>
                         <div>
-                            <div className='w-[200px]'>
-                                <Input
-                                    label="Ball"
-                                    value={Ball}
-                                    onChange={(e) => setBall(e.target.value)}
-                                    color="#2c3e50"
-                                    type="number"
-                                    required
-                                    className="border-MainColor w-[200px] text-[#2c3e50] bg-[]"
-                                />
+                            <div className='flex items-center justify-between gap-[10px] flex-wrap'>
+                                <div className='w-[200px]'>
+                                    <Input
+                                        label="Ball"
+                                        value={Ball}
+                                        onChange={(e) => setBall(e.target.value)}
+                                        color="#2c3e50"
+                                        type="number"
+                                        required
+                                        className="border-MainColor w-[200px] text-[#2c3e50] bg-[]"
+                                    />
+                                </div>
+                                <div className='w-[200px]'>
+                                    <Input
+                                        label="Coherence Cohesion"
+                                        color="#2c3e50"
+                                        type="number"
+                                        required
+                                        className="border-MainColor w-[200px] text-[#2c3e50] bg-[]"
+                                    />
+                                </div>
+                                <div className='w-[200px]'>
+                                    <Input
+                                        label="Grammar"
+                                        color="#2c3e50"
+                                        type="number"
+                                        required
+                                        className="border-MainColor w-[200px] text-[#2c3e50] bg-[]"
+                                    />
+                                </div>
+                                <div className='w-[200px]'>
+                                    <Input
+                                        label="Lexical Resource"
+                                        color="#2c3e50"
+                                        type="number"
+                                        required
+                                        className="border-MainColor w-[200px] text-[#2c3e50] bg-[]"
+                                    />
+                                </div>
+                                <div className='w-[200px]'>
+                                    <Input
+                                        label="Task Achievement"
+                                        color="#2c3e50"
+                                        type="number"
+                                        required
+                                        className="border-MainColor w-[200px] text-[#2c3e50] bg-[]"
+                                    />
+                                </div>
                             </div>
                             <div className='mt-[15px]'>
                                 <Textarea
@@ -40,7 +78,6 @@ export default function WritingPersonResult({ isOpen, onClose }) {
                                     className="mb-4 min-h-[350px]"
                                 />
                             </div>
-
                             <Button
                                 fullWidth
                                 color="white"
