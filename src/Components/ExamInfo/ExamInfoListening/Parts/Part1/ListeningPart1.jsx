@@ -3,6 +3,7 @@ import LQP1Create from "./LQP1Create";
 import LQP1Questions from "./LQP1Questions";
 import LQP1Edit from "./LQP1Edit";
 import LQP1Delete from "./LQP1Delete";
+import Part1Title from "./Part1Title";
 
 export default function ListeningPart1() {
     const [CreateModal, setCreateModal] = useState(false)
@@ -20,6 +21,7 @@ export default function ListeningPart1() {
                 </button>
             </div>
             <div className="mt-[20px]">
+                <Part1Title/>
                 <LQP1Questions EditModal={()=>setEditModal(true)} DeleteModal={()=>setDeleteModal(true)}/>
             </div>
             <LQP1Create isOpen={CreateModal} onClose={()=>setCreateModal(false)}/>

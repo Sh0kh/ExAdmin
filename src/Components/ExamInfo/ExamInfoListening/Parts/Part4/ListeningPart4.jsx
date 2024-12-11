@@ -4,6 +4,7 @@ import LQP4Table from "./LQP4Table"
 import LQP4Delete from "./LQP4Delete"
 import LQP4Edit from "./LQP4Edit"
 import LQP4Foto from "./LQP4Foto"
+import Part4Title from "./Part4Title"
 
 export default function ListeningPart4() {
 
@@ -22,6 +23,7 @@ export default function ListeningPart4() {
                 </button>
             </div>
             <div className="mt-[20px]">
+                <Part4Title/>
                 <LQP4Foto/>
                 <LQP4Table EditModal={()=>setEditModal(true)} DeleteModal={()=>setDeleteModal(true)}/>
             </div>

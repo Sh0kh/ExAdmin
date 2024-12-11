@@ -4,6 +4,7 @@ import LQ2Text from "./LQP2Text"
 import LQP2Edit from "./LQP2Edit"
 import LQP2Delete from "./LQP2Delete"
 import LQ2AnswerCreate from "./LQ2AnswerCreate"
+import Part2Title from "./Part2Title"
 
 export default function ListeningPart2() {
 
@@ -28,6 +29,7 @@ export default function ListeningPart2() {
                 </div>
             </div>
             <div className="mt-[20px]">
+                <Part2Title/>
                 <LQ2Text editModal={() => setEditModal(true)} deleteModal={() => setDeleteModal(true)} />
             </div>
             <LQP2Edit isOpen={editModal} onClose={() => setEditModal(false)} />

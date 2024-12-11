@@ -3,6 +3,7 @@ import LQP6Create from "./LQP6Create";
 import LQP6Table from "./LQP6Table";
 import LQP6Eidt from "./LQP6Edit";
 import LQP6Delete from "./LQP6Delete";
+import Part6Title from "./Part6Title";
 
 export default function ListeningPart6() {
     const [CreateModal, setCreateModal] = useState(false)
@@ -20,6 +21,7 @@ export default function ListeningPart6() {
                 </button>
             </div>
             <div className="mt-[20px]">
+                <Part6Title/>
                 <LQP6Table EditModal={() => setEditModal(true)} DeleteModal={() => setDeleteModal(true)} />
             </div>
 

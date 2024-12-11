@@ -3,6 +3,7 @@ import LQP3Create from "./LQP3Create"
 import LQP3Table from "./LQP3Table"
 import LQP3Edit from "./LQP3Edit"
 import LQP3Delete from "./LQP3Delete"
+import Part3Title from "./Part3Title"
 
 export default function ListeningPart3() {
 
@@ -21,6 +22,7 @@ export default function ListeningPart3() {
                 </button>
             </div>
             <div className="mt-[20px]">
+                <Part3Title/>
                 <LQP3Table EditModal={()=>setEditModal(true)} DeleteModal={()=>setDeleteModal(true)}/>
             </div>
             <LQP3Create isOpen={createModal} onClose={()=>setCreateModal(false)}/>
