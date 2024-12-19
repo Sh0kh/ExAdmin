@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Textarea } from "@material-tailwind/react";
+import { Button, Textarea, Input } from "@material-tailwind/react";
 
 
 export default function LQP2Create({ isOpen, onClose }) {
@@ -9,11 +9,11 @@ export default function LQP2Create({ isOpen, onClose }) {
         <>
             <div className={`Modal ${isOpen ? "open" : ""}`} onClick={onClose}>
                 <div
-                    className={`Modal2Content ${isOpen ? "open" : ""}`}
+                    className={`Modal3Content ${isOpen ? "open" : ""}`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="p-[10px] pb-[30px]">
-                        <div className="flex items-center justify-between pt-[10px] pb-[20px]">
+                        <div className="flex items-center justify-between pt-[10px] pb-[10px]">
                             <h1 className="text-MainColor text-[20px]">Matn yaratish</h1>
                             <button onClick={onClose}>
                                 <svg
@@ -38,8 +38,24 @@ export default function LQP2Create({ isOpen, onClose }) {
                                 value={question}
                                 onChange={(e) => setQuestion(e.target.value)}
                                 resize={false}
-                                className="mb-4 h-[350px]"
+                                className="mb-4 h-[250px]"
                             />
+                            <h1 className="text-MainColor text-[20px] mb-[15px]">Javob yaratish</h1>
+                            <div className="answerWrapper">
+                                {Array.from({ length: 8 }).map((_, index) => (
+                                    <div>
+                                        <Input
+                                            key={index}
+                                            label={`Javob ${index + 1}`}
+                                            color="#2c3e50"
+                                            type="text"
+                                            required
+                                            className="border-MainColor text-[#2c3e50] bg-[]"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+
                             <Button className="mt-2 bg-MainColor">
                                 Saqlash
                             </Button>
