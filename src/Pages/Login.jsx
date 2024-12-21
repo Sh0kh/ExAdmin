@@ -7,6 +7,44 @@ import Swal from 'sweetalert2';
 const Login = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate()
+
+  const Login = async () => {
+    try {
+      const data = {
+        phone_number: login,
+        password: password
+      }
+      const response = await axios.post('/login', data)
+      localStorage.setItem("token", response?.data?.token)
+      
+      Swal.fire({
+        title: 'Muvaffaqiyatli!',
+        icon: 'success',
+        position: 'top-end',
+        timer: 3000,
+        timerProgressBar: true,
+        showCloseButton: true,
+        toast: true,
+        showConfirmButton: false,
+    
+      });
+      navigate('/')
+    } catch (error) {
+      Swal.fire({
+        title: 'Error!',
+        text: error.response?.data?.message || 'Error.',
+        icon: 'error',
+        position: 'top-end',
+        timer: 3000,
+        timerProgressBar: true,
+        showCloseButton: true,
+        toast: true,
+        showConfirmButton: false,
+     
+      });
+    }
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[white]">
@@ -15,10 +53,10 @@ const Login = () => {
 
         <div className="space-y-4">
           <Input
-            label="Email"
+            label="Phone"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
-            color="white" 
+            color="white"
             type="text"
             required
             className="border-white text-white bg-[#2c3e50]"
@@ -30,11 +68,11 @@ const Login = () => {
             color="white"  // Changed to gray for a neutral look
             type="password"
             required
-            className="border-white text-white bg-[#2c3e50]" 
+            className="border-white text-white bg-[#2c3e50]"
           />
           <Button
             fullWidth
-            color="white" 
+            color="white"
             onClick={Login}
             className="bg-[white] border-[white] border-[2px] text-black hover:bg-transparent hover:text-[white]"
           >

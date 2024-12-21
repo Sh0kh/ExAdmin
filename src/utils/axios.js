@@ -1,4 +1,4 @@
-import axios from 'axios' 
-axios.defaults.baseURL = 'https://api.darxon-res.uz/api'
+import axios from 'axios'
+axios.defaults.baseURL = 'https://nolovoy.ideal-study.uz/api/seo'
 
 export default axios

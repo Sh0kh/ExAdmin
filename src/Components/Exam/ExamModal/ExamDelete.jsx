@@ -1,6 +1,42 @@
 import { Button } from '@material-tailwind/react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-export default function ExamDelete({ isOpen, onClose }) {
+export default function ExamDelete({ isOpen, onClose, id, refresh }) {
+
+    const deleteExam = async () => {
+        try {
+            await axios.delete(`/exams/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            onClose()
+            refresh()
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    }
 
     return (
         <>
@@ -27,6 +63,7 @@ export default function ExamDelete({ isOpen, onClose }) {
                                     Bekor qilish
                                 </Button>
                                 <Button
+                                    onClick={deleteExam}
                                     fullWidth
                                     color="white"
                                     className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

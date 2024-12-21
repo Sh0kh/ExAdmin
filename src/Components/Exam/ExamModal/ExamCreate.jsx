@@ -1,8 +1,50 @@
 import { Button, Input } from '@material-tailwind/react';
+import axios from 'axios';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
-export default function ExamCreate({ isOpen, onClose }) {
+export default function ExamCreate({ isOpen, onClose, refresh }) {
     const [name, setName] = useState('')
+
+    const CreateExam = async () => {
+        try {
+            const newExam = {
+                name: name
+            }
+            await axios.post('/exams', newExam, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            onClose()
+            setName('')
+            refresh()
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    }
+
     return (
         <>
             <div className={`Modal ${isOpen ? "open" : ""}`} onClick={onClose} >
@@ -29,6 +71,7 @@ export default function ExamCreate({ isOpen, onClose }) {
                                 className="border-MainColor text-[#2c3e50] bg-[]"
                             />
                             <Button
+                                onClick={CreateExam}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

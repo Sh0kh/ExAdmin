@@ -1,9 +1,57 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button, Input } from '@material-tailwind/react';
+import Swal from 'sweetalert2';
+import axios from "axios";
 
-export default function ExamEdit({ isOpen, onClose }) {
+export default function ExamEdit({ isOpen, onClose, data, refresh }) {
+
 
     const [name, setName] = useState('')
+
+    useEffect(() => {
+        if (data) {
+            setName(data?.name || '')
+        }
+    }, [data])
+
+
+    const EditExam = async () => {
+        try {
+            const editData = {
+                name: name
+            }
+            await axios.put(`/exams/${data?.id}`, editData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            refresh()
+            onClose()
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    }
+
     return (
         <>
             <div className={`Modal ${isOpen ? "open" : ""}`} onClick={onClose} >
@@ -30,6 +78,7 @@ export default function ExamEdit({ isOpen, onClose }) {
                                 className="border-MainColor text-[#2c3e50] bg-[]"
                             />
                             <Button
+                                onClick={EditExam}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"
