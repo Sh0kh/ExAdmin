@@ -6,12 +6,14 @@ import ExamEdit from "../Components/Exam/ExamModal/ExamEdit";
 import ExamDelete from "../Components/Exam/ExamModal/ExamDelete";
 import ReactLoading from "react-loading";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Exam() {
     // Состояния для модалок
     const [CreateModal, setCreateModal] = useState(false);
     const [EditModal, setEditModal] = useState(false);
     const [DeleteModal, setDeleteModal] = useState(false);
+    const navigate = useNavigate()
 
     // Состояние для хранения ID элемента
     const [selectedId, setSelectedId] = useState(null);
@@ -30,6 +32,10 @@ export default function Exam() {
             setData(response?.data);
         } catch (error) {
             console.log(error);
+            if (error?.response?.status === 401) {
+                navigate('/login')
+                localStorage.clear()
+            }
         } finally {
             setLoading(false);
         }
@@ -42,12 +48,12 @@ export default function Exam() {
     // Функции для открытия модалок с сохранением ID
     const handleEditModalOpen = (data) => {
         setSelectedId(data);
-        setEditModal(true); 
+        setEditModal(true);
     };
 
     const handleDeleteModalOpen = (id) => {
-        setSelectedId(id); 
-        setDeleteModal(true); 
+        setSelectedId(id);
+        setDeleteModal(true);
     };
 
     if (loading) {
