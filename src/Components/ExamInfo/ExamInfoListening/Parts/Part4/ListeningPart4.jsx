@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import LQP4Create from "./LQP4Create"
 import LQP4Table from "./LQP4Table"
-import LQP4Delete from "./LQP4Delete"
 import LQP4Edit from "./LQP4Edit"
-import LQP4Foto from "./LQP4Foto"
-import Part4Title from "./Part4Title"
+import axios from "axios";
+import ReactLoading from "react-loading";
+import { useParams, useSearchParams } from "react-router-dom"
+import PartTitle from "../../../PartTitle"
+import QuestionDelete from "../../../ExamComponent/QuestionDelete"
+import PartFoto from "../../../PartFoto"
 
 export default function ListeningPart4() {
 
@@ -12,24 +15,74 @@ export default function ListeningPart4() {
     const [editModal, setEditModal] = useState(false)
     const [deleteModal, setDeleteModal] = useState(false)
 
+    const [EditData, setEditData] = useState(null)
+    const [deleteId, setDeleteId] = useState(null)
+    const { id } = useParams()
+    const [searchParams] = useSearchParams();
+    const name = searchParams.get("name");
+    const [data, setData] = useState()
+    const [loading, setLoading] = useState(true)
+    const [title, setTitle] = useState()
+    const [FotoPath, setPhotoPath] = useState(null)
+
+    const getQuestion = async () => {
+        try {
+            const response = await axios.get(`/parts/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            })
+            setData(response?.data?.questions)
+            setTitle(response?.data?.description)
+            setPhotoPath(response?.data?.photo_path)
+        } catch (error) {
+            console.log(error)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        getQuestion()
+    }, [])
+
+    const handleEditModalOpen = (data) => {
+        setEditData(data);
+        setEditModal(true);
+    };
+
+    const handleDeleteModalOpen = (id) => {
+        setDeleteId(id);
+        setDeleteModal(true);
+    };
+
+    if (loading) {
+        return (
+            <div className="flex items-center justify-center h-screen w-full">
+                <ReactLoading type="spinningBubbles" color="#000" height={100} width={100} />
+            </div>
+        );
+    }
+
+
     return (
         <div className="Exam p-[15px] w-full">
             <div className="Header__wrapper">
                 <h1 className="text-MainColor text-[32px] font-[700]">
-                    Imtihon ・ Exam Name ・ Listening ・ 4 qism
+                    Imtihon ・ {name} ・ Listening ・ 4 qism
                 </h1>
                 <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
                     Savol yaratish
                 </button>
             </div>
             <div className="mt-[20px]">
-                <Part4Title/>
-                <LQP4Foto/>
-                <LQP4Table EditModal={()=>setEditModal(true)} DeleteModal={()=>setDeleteModal(true)}/>
+                <PartTitle data={title} />
+                <PartFoto data={FotoPath}/>
+                <LQP4Table data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
             </div>
-            <LQP4Create isOpen={createModal} onClose={()=>setCreateModal(false)}/>
-            <LQP4Delete isOpen={deleteModal} onClose={()=>setDeleteModal(false)}/>
-            <LQP4Edit isOpen={editModal} onClose={()=>setEditModal(false)}/>
+            <LQP4Create refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
+            <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={deleteModal} onClose={() => setDeleteModal(false)} />
+            <LQP4Edit refresh={getQuestion} data={EditData} isOpen={editModal} onClose={() => setEditModal(false)} />
         </div>
     )
 }

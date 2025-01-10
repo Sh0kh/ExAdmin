@@ -1,10 +1,63 @@
 import { useState } from "react";
 import { Button, Input } from '@material-tailwind/react';
+import axios from "axios";
+import Swal from 'sweetalert2';
+import { useParams } from "react-router-dom";
 
-export default function LQP6Create({ isOpen, onClose }) {
+
+export default function LQP6Create({ isOpen, onClose, refresh }) {
 
     const [question, setquestion] = useState('');
     const [answer, setAnswer] = useState('');
+    const { id } = useParams()
+
+    const CreateQuestion = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("part_id", Number(id));
+            formData.append("question", question);
+            formData.append("type", "quiz");
+            formData.append("answers", JSON.stringify([
+                {
+                    answer: answer,
+                    is_correct: 1
+                },
+            ]));
+
+            await axios.post('/questions', formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            setquestion('')
+            setAnswer('')
+            refresh()
+            onClose();
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    };
 
     return (
         <>
@@ -45,6 +98,7 @@ export default function LQP6Create({ isOpen, onClose }) {
                                 </div>
                             </div>
                             <Button
+                                onClick={CreateQuestion}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

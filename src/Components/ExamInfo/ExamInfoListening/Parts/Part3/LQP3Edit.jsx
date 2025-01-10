@@ -1,7 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Input, Checkbox } from '@material-tailwind/react';
+import axios from "axios";
+import Swal from 'sweetalert2';
 
-export default function LQP3Edit({ isOpen, onClose }) {
+export default function LQP3Edit({ isOpen, onClose, data, refresh }) {
+
 
     const [question, setquestion] = useState('');
     const [optionA, setOptionA] = useState('');
@@ -12,6 +15,80 @@ export default function LQP3Edit({ isOpen, onClose }) {
     const [correctOptionB, setCorrectOptionB] = useState(false);
     const [correctOptionC, setCorrectOptionC] = useState(false);
     const [correctOptionD, setCorrectOptionD] = useState(false);
+
+    useEffect(() => {
+        if (data) {
+            setquestion(data?.question)
+            setOptionA(data?.answers[0]?.answer)
+            setCorrectOptionA(data?.answers[0]?.is_correct === 1 ? true : false)
+            setOptionB(data?.answers[1]?.answer)
+            setCorrectOptionB(data?.answers[1]?.is_correct === 1 ? true : false)
+            setOptionC(data?.answers[2]?.answer)
+            setCorrectOptionC(data?.answers[2]?.is_correct === 1 ? true : false)
+            setOptionD(data?.answers[3]?.answer)
+            setCorrectOptionD(data?.answers[3]?.is_correct === 1 ? true : false)
+        }
+    }, [data])
+
+
+    const EditQuestion = async () => {
+        try {
+            const EditData = {
+                type: 'quiz',
+                question: question,
+                answer: [
+                    {
+                        answer: optionA,
+                        is_correct: correctOptionA === true ? 1 : 0
+                    },
+                    {
+                        answer: optionB,
+                        is_correct: correctOptionB === true ? 1 : 0
+                    },
+                    {
+                        answer: optionC,
+                        is_correct: correctOptionC === true ? 1 : 0
+                    },
+                    {
+                        answer: optionD,
+                        is_correct: correctOptionD === true ? 1 : 0
+                    }
+                ]
+            }
+
+            await axios.put(`/questions/${data?.id}`, EditData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+
+            onClose()
+            refresh()
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    }
+
 
     return (
         <>
@@ -109,6 +186,7 @@ export default function LQP3Edit({ isOpen, onClose }) {
                                 </div>
                             </div>
                             <Button
+                                onClick={EditQuestion}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

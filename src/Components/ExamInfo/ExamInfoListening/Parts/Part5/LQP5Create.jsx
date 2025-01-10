@@ -1,17 +1,76 @@
 import { useState } from "react";
 import { Button, Input, Checkbox } from '@material-tailwind/react';
+import Swal from 'sweetalert2';
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function LQP5Create({ isOpen, onClose }) {
 
+export default function LQP5Create({ isOpen, onClose, refresh }) {
+
+    const { id } = useParams()
     const [question, setquestion] = useState('');
     const [optionA, setOptionA] = useState('');
     const [optionB, setOptionB] = useState('');
     const [optionC, setOptionC] = useState('');
-    const [optionD, setOptionD] = useState('');
     const [correctOptionA, setCorrectOptionA] = useState(false);
     const [correctOptionB, setCorrectOptionB] = useState(false);
     const [correctOptionC, setCorrectOptionC] = useState(false);
-    const [correctOptionD, setCorrectOptionD] = useState(false);
+
+    const CreateQuestion = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("part_id", Number(id));
+            formData.append("question", question);
+            formData.append("type", "quiz");
+            formData.append("answers", JSON.stringify([
+                {
+                    answer: optionA,
+                    is_correct: correctOptionA === true ? 1 : 0
+                },
+                {
+                    answer: optionB,
+                    is_correct: correctOptionB === true ? 1 : 0
+                },
+                {
+                    answer: optionC,
+                    is_correct: correctOptionC === true ? 1 : 0
+                }
+            ]));
+
+            await axios.post('/questions', formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            refresh()
+            onClose();
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    };
+
 
     return (
         <>
@@ -90,25 +149,9 @@ export default function LQP5Create({ isOpen, onClose }) {
                                         className="h-[25px] w-[25px] text-[#2c3e50] border-MainColor bg-[]"
                                     />
                                 </div>
-                                <div className="w-full flex items-center gap-[5px]">
-                                    <Input
-                                        label="D"
-                                        value={optionD}
-                                        onChange={(e) => setOptionD(e.target.value)}
-                                        color="#2c3e50"
-                                        type="text"
-                                        required
-                                        className="border-MainColor text-[#2c3e50] bg-[]"
-                                    />
-                                    <Checkbox
-                                        checked={correctOptionD}
-                                        onChange={(e) => setCorrectOptionD(e.target.checked)}
-                                        color="#2c3e50"
-                                        className="h-[25px] w-[25px] text-[#2c3e50] border-MainColor bg-[]"
-                                    />
-                                </div>
                             </div>
                             <Button
+                                onClick={CreateQuestion}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

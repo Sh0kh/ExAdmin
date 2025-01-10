@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Input } from "@material-tailwind/react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Подключение стилей
@@ -6,48 +6,22 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
-export default function LQP2Create({ isOpen, onClose, refresh }) {
-    const [content, setContent] = useState("");
-    const [answers, setAnswers] = useState([]);
+export default function ParagraphCreate({data, isOpen, onClose, refresh, type }) {
+    const [content, setContent] = useState('');
     const { id } = useParams()
 
-    const handleChange = (value) => {
-        setContent(value);
-
-        // Подсчёт количества вхождений ключевого слова "inputext"
-        const matches = value.match(/inputext/g) || [];
-        const matchCount = matches.length;
-
-        // Обновление количества ответов с ограничением до 8
-        const limitedAnswers = Math.min(matchCount, 8);
-        setAnswers((prevAnswers) =>
-            Array.from({ length: limitedAnswers }, (_, index) => ({
-                answer: prevAnswers[index]?.answer || "",
-                is_correct: "1",
-                // is_correct: prevAnswers[index]?.is_correct || "",
-            }))
-        );
-    };
-
-    const handleAnswerChange = (index, value) => {
-        const updatedAnswers = [...answers];
-        updatedAnswers[index].answer = value;
-        updatedAnswers[index].is_correct = "1"; // Передаем значение в is_correct
-        setAnswers(updatedAnswers);
-    };
+    useEffect(() => {
+        if (data?.description) {
+            setContent(data.description);
+        }
+    }, [data]);
 
 
     const CreateQuestion = async () => {
         try {
             const formData = new FormData();
-            formData.append("part_id", Number(id)); // Убедитесь, что id определен
-            formData.append("type", "writing");
-            formData.append("question", content);
-
-            // Преобразование структуры ответов для отправки
-            formData.append("answers", JSON.stringify(answers));
-
-            await axios.post(`/questions`, formData, {
+            formData.append("description", content);
+            await axios.post(`/part-update/${id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "multipart/form-data",
@@ -91,7 +65,13 @@ export default function LQP2Create({ isOpen, onClose, refresh }) {
                 >
                     <div className="p-[10px] pb-[30px]">
                         <div className="flex items-center justify-between pt-[10px] pb-[10px]">
-                            <h1 className="text-MainColor text-[20px]">Matn yaratish</h1>
+                            <h1 className="text-MainColor text-[20px]">
+                                {type === true ?(
+                                    'Matn yaratish'
+                                ):(
+                                    "Matn o'zgartirish"
+                                )}
+                            </h1>
                             <button onClick={onClose}>
                                 <svg
                                     className="text-[#5E5C5A] text-[12px]"
@@ -114,30 +94,11 @@ export default function LQP2Create({ isOpen, onClose, refresh }) {
                                 <ReactQuill
                                     theme="snow"
                                     value={content}
-                                    onChange={handleChange}
+                                    onChange={setContent} // Use setContent directly here
                                     placeholder="Text..."
                                     className="h-[250px]"
                                 />
-                            </div>
-                            <h1 className="text-MainColor text-[20px] mb-[15px]">
-                                Javob yaratish
-                            </h1>
-                            <div className="answerWrapper">
-                                {answers.map((answer, index) => (
-                                    <div key={index} className="mb-2">
-                                        <Input
-                                            label={`Javob ${index + 1}`}
-                                            color="#2c3e50"
-                                            type="text"
-                                            required
-                                            value={answer.answer}
-                                            onChange={(e) =>
-                                                handleAnswerChange(index, e.target.value)
-                                            }
-                                            className="border-MainColor text-[#2c3e50]"
-                                        />
-                                    </div>
-                                ))}
+
                             </div>
                             <Button onClick={CreateQuestion} className="mt-2 bg-MainColor">
                                 Saqlash

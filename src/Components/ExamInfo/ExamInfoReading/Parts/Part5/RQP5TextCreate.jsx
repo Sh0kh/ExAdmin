@@ -1,20 +1,96 @@
 import { useState } from "react";
-import { Button } from "@material-tailwind/react";
+import { Button, Input } from "@material-tailwind/react";
 import ReactQuill from "react-quill";
-import 'react-quill/dist/quill.snow.css'; // или 'quill.bubble.css'
+import "react-quill/dist/quill.snow.css"; // Подключение стилей
+import axios from "axios";
+import Swal from "sweetalert2";
+import { useParams } from "react-router-dom";
 
-export default function RQP5TextCreate({ isOpen, onClose }) {
-    const [question, setQuestion] = useState("");
+export default function RQP5TextCreate({ isOpen, onClose, refresh }) {
+    const [content, setContent] = useState("");
+    const [answers, setAnswers] = useState([]);
+    const { id } = useParams()
+
+    const handleChange = (value) => {
+        setContent(value);
+
+        // Подсчёт количества вхождений ключевого слова "inputext"
+        const matches = value.match(/inputext/g) || [];
+        const matchCount = matches.length;
+
+        // Обновление количества ответов с ограничением до 8
+        const limitedAnswers = Math.min(matchCount, 8);
+        setAnswers((prevAnswers) =>
+            Array.from({ length: limitedAnswers }, (_, index) => ({
+                answer: prevAnswers[index]?.answer || "",
+                is_correct: "1",
+                // is_correct: prevAnswers[index]?.is_correct || "",
+            }))
+        );
+    };
+
+    const handleAnswerChange = (index, value) => {
+        const updatedAnswers = [...answers];
+        updatedAnswers[index].answer = value;
+        updatedAnswers[index].is_correct = "1"; // Передаем значение в is_correct
+        setAnswers(updatedAnswers);
+    };
+
+
+    const CreateQuestion = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("part_id", Number(id)); // Убедитесь, что id определен
+            formData.append("type", "writing");
+            formData.append("question", content);
+
+            // Преобразование структуры ответов для отправки
+            formData.append("answers", JSON.stringify(answers));
+
+            await axios.post(`/questions`, formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            refresh()
+            setContent('')
+            onClose()
+            Swal.fire({
+                title: "Muvaffaqiyatli!",
+                icon: "success",
+                position: "top-end",
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            console.log(error)
+            Swal.fire({
+                title: "Error!",
+                text: error.response?.data?.message || "Error.",
+                icon: "error",
+                position: "top-end",
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    };
 
     return (
         <>
             <div className={`Modal ${isOpen ? "open" : ""}`} onClick={onClose}>
                 <div
-                    className={`Modal2Content ${isOpen ? "open" : ""}`}
+                    className={`Modal3Content ${isOpen ? "open" : ""}`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="p-[10px] pb-[30px]">
-                        <div className="flex items-center justify-between pt-[10px] pb-[20px]">
+                        <div className="flex items-center justify-between pt-[10px] pb-[10px]">
                             <h1 className="text-MainColor text-[20px]">Matn yaratish</h1>
                             <button onClick={onClose}>
                                 <svg
@@ -33,14 +109,37 @@ export default function RQP5TextCreate({ isOpen, onClose }) {
                                 </svg>
                             </button>
                         </div>
-                        <div className="mt-[10px] min-h-[450px]">
-                            <ReactQuill
-                                value={question}
-                                onChange={setQuestion} // ReactQuill возвращает значение напрямую
-                                className="h-[300px]"
-                                theme="snow" // Используйте "snow" или "bubble"
-                            />
-                            <Button className="mt-[100px] bg-MainColor" onClick={() => console.log(question)}>
+                        <div className="mt-[10px]">
+                            <div className="mb-[60px]">
+                                <ReactQuill
+                                    theme="snow"
+                                    value={content}
+                                    onChange={handleChange}
+                                    placeholder="Text..."
+                                    className="h-[250px]"
+                                />
+                            </div>
+                            <h1 className="text-MainColor text-[20px] mb-[15px]">
+                                Javob yaratish
+                            </h1>
+                            <div className="answerWrapper">
+                                {answers.map((answer, index) => (
+                                    <div key={index} className="mb-2">
+                                        <Input
+                                            label={`Javob ${index + 1}`}
+                                            color="#2c3e50"
+                                            type="text"
+                                            required
+                                            value={answer.answer}
+                                            onChange={(e) =>
+                                                handleAnswerChange(index, e.target.value)
+                                            }
+                                            className="border-MainColor text-[#2c3e50]"
+                                        />
+                                    </div>
+                                ))}
+                            </div>
+                            <Button onClick={CreateQuestion} className="mt-2 bg-MainColor">
                                 Saqlash
                             </Button>
                         </div>

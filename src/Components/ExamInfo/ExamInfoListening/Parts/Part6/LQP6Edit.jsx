@@ -1,10 +1,69 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Input } from '@material-tailwind/react';
+import axios from "axios";
+import Swal from 'sweetalert2';
 
-export default function LQP6Eidt({ isOpen, onClose }) {
+export default function LQP6Eidt({ isOpen, onClose, data, refresh }) {
 
     const [question, setquestion] = useState('');
     const [answer, setAnswer] = useState('');
+
+    useEffect(() => {
+        if (data) {
+            setquestion(data?.question)
+            setAnswer(data?.answers[0]?.answer)
+        }
+    }, [data])
+
+
+
+    const EditQuestion = async () => {
+        try {
+            const EditData = {
+                type: 'quiz',
+                question: question,
+                answer: [
+                    {
+                        answer: answer,
+                        is_correct: 1
+                    },
+                ]
+            }
+
+            await axios.put(`/questions/${data?.id}`, EditData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+
+            onClose()
+            refresh()
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    }
+
+
 
     return (
         <>
@@ -45,6 +104,7 @@ export default function LQP6Eidt({ isOpen, onClose }) {
                                 </div>
                             </div>
                             <Button
+                                onClick={EditQuestion}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

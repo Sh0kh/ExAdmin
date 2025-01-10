@@ -68,35 +68,35 @@ function App() {
               <Route path="/reyting" element={<Reyting />} />
 
               <Route path="/exam" element={<Exam />} />
-              <Route path="/exam/1/:id" element={<ExamInfoLestinenig />} />
+              <Route path="/exam/listening/:id" element={<ExamInfoLestinenig />} />
               {/* Listening Parts */}
-              <Route path="/exam/1/listening/part_1" element={<ListeningPart1 />} />
-              <Route path="/exam/1/listening/part_2" element={<ListeningPart2 />} />
-              <Route path="/exam/1/listening/part_3" element={<ListeningPart3 />} />
-              <Route path="/exam/1/listening/part_4" element={<ListeningPart4 />} />
-              <Route path="/exam/1/listening/part_5" element={<ListeningPart5 />} />
-              <Route path="/exam/1/listening/part_6" element={<ListeningPart6 />} />
+              <Route path="/exam/listening/part/1/:id" element={<ListeningPart1 />} />
+              <Route path="/exam/listening/part/2/:id" element={<ListeningPart2 />} />
+              <Route path="/exam/listening/part/3/:id" element={<ListeningPart3 />} />
+              <Route path="/exam/listening/part/4/:id" element={<ListeningPart4 />} />
+              <Route path="/exam/listening/part/5/:id" element={<ListeningPart5 />} />
+              <Route path="/exam/listening/part/6/:id" element={<ListeningPart6 />} />
               {/* Listening Parts */}
-              <Route path="/exam/1/reading" element={<ExamInfoReading />} />
+              <Route path="/exam/reading/:id" element={<ExamInfoReading />} />
 
               {/* Reading Parts */}
-              <Route path="/exam/1/reading/part_1" element={<ReadingPart1 />} />
-              <Route path="/exam/1/reading/part_2" element={<ReadingPart2 />} />
-              <Route path="/exam/1/reading/part_3" element={<ReadingPart3 />} />
-              <Route path="/exam/1/reading/part_4" element={<ReadingPart4 />} />
-              <Route path="/exam/1/reading/part_5" element={<ReadingPart5 />} />
+              <Route path="/exam/reading/part/1/:id" element={<ReadingPart1 />} />
+              <Route path="/exam/reading/part/2/:id" element={<ReadingPart2 />} />
+              <Route path="/exam/reading/part/3/:id" element={<ReadingPart3 />} />
+              <Route path="/exam/reading/part/4/:id" element={<ReadingPart4 />} />
+              <Route path="/exam/reading/part/5/:id" element={<ReadingPart5 />} />
               {/* Reading Parts */}
-              <Route path="/exam/1/writing" element={<ExamInfoWritnig />} />
+              <Route path="/exam/writing/:id" element={<ExamInfoWritnig />} />
               {/* Writing Parts */}
-              <Route path="/exam/1/writing/part_1" element={<WritingPart1 />} />
+              <Route path="/exam/writing/part/:id" element={<WritingPart1 />} />
               {/* Writing Parts */}
 
-              <Route path="/exam/1/speaking" element={<ExamInfoSpeaking />} />
+              <Route path="/exam/speaking/:id" element={<ExamInfoSpeaking />} />
 
-              <Route path="/exam/1/speaking/part_1" element={<SpeakingPart1 />} />
-              <Route path="/exam/1/speaking/part_1.2" element={<SpeakingPart1_2 />} />
-              <Route path="/exam/1/speaking/part_2" element={<SpeakingPart2 />} />
-              <Route path="/exam/1/speaking/part_3" element={<SpeakingPart3 />} />
+              <Route path="/exam/speaking/part/1/:id" element={<SpeakingPart1 />} />
+              <Route path="/exam/speaking/part/2/:id" element={<SpeakingPart1_2 />} />
+              <Route path="/exam/speaking/part/2/:id" element={<SpeakingPart2 />} />
+              <Route path="/exam/speaking/part/3/:id" element={<SpeakingPart3 />} />
             </Route>
           </Route>
         </Route>

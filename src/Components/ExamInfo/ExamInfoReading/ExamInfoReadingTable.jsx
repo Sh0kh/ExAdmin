@@ -1,16 +1,27 @@
 import { Card, CardBody, Typography } from "@material-tailwind/react";
 import { IoEyeSharp } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 
-export default function ExaminfoReadingTable() {
-    const tableData = [
-        { id: 1, name: "1", score: "1-6", type: 'Matn yozish shaklida', Link: "part_1" },
-        { id: 2, name: "2", score: "7-14", type: 'Rasm shaklida', Link: "part_2" },
-        { id: 3, name: "3", score: "15-20", type: 'Matn tanlash shaklida', Link: "part_3" },
-        { id: 4, name: "4", score: "21-29", type: 'Test shaklida', Link: "part_4" },
-        { id: 5, name: "5", score: "30-35", type: 'Text yozish va Test shaklida', Link: "part_5" },
-    ];
+
+export default function ExaminfoReadingTable({ data }) {
+
+
+
+    const [searchParams] = useSearchParams();
+    const name = searchParams.get("name");
+
+
+    if (!Array.isArray(data)) {
+        return (
+            <div className="h-screen">
+                <h1>
+                    Not found !
+                </h1>
+            </div>
+        );
+    }
 
     return (
         <Card className="mt-6 shadow-none p-0">
@@ -29,18 +40,18 @@ export default function ExaminfoReadingTable() {
                             </tr>
                         </thead>
                         <tbody>
-                            {tableData.map((row) => (
+                            {data.map((row, index) => (
                                 <tr
                                     key={row.id}
                                     className="bg-MainColor text-white shadow-md"
                                 >
-                                    <td className="px-4 py-3 font-semibold rounded-l-xl shadow-md">{row.name}</td>
-                                    <td className="px-4 py-3 text-center">{row.score}</td>
-                                    <td className="px-4 py-3 text-center">{row.type}</td>
+                                    <td className="px-4 py-3 font-semibold rounded-l-xl shadow-md">{index + 1}</td>
+                                    <td className="px-4 py-3 text-center">{row.question_count}</td>
+                                    <td className="px-4 py-3 text-center">{row.question_type}</td>
                                     <td
                                         className={`px-4 py-3 text-right rounded-r-lg shadow-md`}
                                     >
-                                        <NavLink to={`/exam/1/reading/${row?.Link}`}>
+                                        <NavLink to={`/exam/reading/part/${index + 1}/${row?.id}?name=${name}`}>
                                             <button className="text-MainColor bg-[white] border-[white] duration-300 rounded-[5px] p-[5px] border-[2px] hover:bg-transparent hover:text-white">
                                                 <IoEyeSharp fontSize={22} />
                                             </button>

@@ -3,7 +3,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react";
 
-export default function LQP4Table({ Edit, Delete, data }) {
+export default function RQP2Question({ Edit, Delete, data }) {
     const [open, setOpen] = React.useState(false);
 
     const handleToggle = (index) => {
@@ -11,17 +11,20 @@ export default function LQP4Table({ Edit, Delete, data }) {
     };
 
 
-
+    
     return (
-        <div className="flex items-start justify-start gap-[15px] flex-col">
-            {data.map((question, index) => (
+        <div className="flex items-start justify-start gap-[15px] flex-col mt-[20px]">
+            <h1 className="text-[30px] font-bold text-MainColor">
+                Savolar
+            </h1>
+            {data?.questions?.map((question, index) => (
                 <Accordion key={question.id} open={open === index} className="rounded-[10px]">
                     <AccordionHeader
                         onClick={() => handleToggle(index)}
                         className="bg-MainColor p-4 rounded-[10px] cursor-pointer"
                     >
                         <div className="flex items-center justify-between w-full">
-                            <h1 className="text-white">Speaker {index + 1}</h1>
+                            <h1 className="text-white">Question {index + 1}</h1>
                             <div className="flex items-center gap-2">
                                 <button
                                     className="p-2 border-2 border-white text-MainColor bg-white rounded-[5px] hover:bg-transparent hover:text-white"

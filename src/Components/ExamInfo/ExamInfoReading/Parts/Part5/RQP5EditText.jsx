@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button, Input } from "@material-tailwind/react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Подключение стилей
@@ -6,10 +6,18 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
-export default function LQP2Create({ isOpen, onClose, refresh }) {
+export default function RQP5EditText({ isOpen, onClose, refresh, data }) {
     const [content, setContent] = useState("");
     const [answers, setAnswers] = useState([]);
-    const { id } = useParams()
+    const { id } = useParams();
+
+    // Инициализация состояния при изменении data или открытии модального окна
+    useEffect(() => {
+        if (isOpen && data) {
+            setContent(data.question || "");
+            setAnswers(data.answers || []);
+        }
+    }, [isOpen, data]);
 
     const handleChange = (value) => {
         setContent(value);
@@ -24,7 +32,6 @@ export default function LQP2Create({ isOpen, onClose, refresh }) {
             Array.from({ length: limitedAnswers }, (_, index) => ({
                 answer: prevAnswers[index]?.answer || "",
                 is_correct: "1",
-                // is_correct: prevAnswers[index]?.is_correct || "",
             }))
         );
     };
@@ -36,26 +43,25 @@ export default function LQP2Create({ isOpen, onClose, refresh }) {
         setAnswers(updatedAnswers);
     };
 
-
-    const CreateQuestion = async () => {
+    const EditQuestion = async () => {
         try {
             const formData = new FormData();
-            formData.append("part_id", Number(id)); // Убедитесь, что id определен
+            formData.append("part_id", Number(id));
             formData.append("type", "writing");
             formData.append("question", content);
 
             // Преобразование структуры ответов для отправки
             formData.append("answers", JSON.stringify(answers));
 
-            await axios.post(`/questions`, formData, {
+            await axios.put(`/questions/${data?.id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "multipart/form-data",
                 },
             });
-            refresh()
-            setContent('')
-            onClose()
+
+            refresh();
+            onClose();
             Swal.fire({
                 title: "Muvaffaqiyatli!",
                 icon: "success",
@@ -67,7 +73,7 @@ export default function LQP2Create({ isOpen, onClose, refresh }) {
                 showConfirmButton: false,
             });
         } catch (error) {
-            console.log(error)
+            console.log(error);
             Swal.fire({
                 title: "Error!",
                 text: error.response?.data?.message || "Error.",
@@ -91,7 +97,7 @@ export default function LQP2Create({ isOpen, onClose, refresh }) {
                 >
                     <div className="p-[10px] pb-[30px]">
                         <div className="flex items-center justify-between pt-[10px] pb-[10px]">
-                            <h1 className="text-MainColor text-[20px]">Matn yaratish</h1>
+                            <h1 className="text-MainColor text-[20px]">O'zgartirish</h1>
                             <button onClick={onClose}>
                                 <svg
                                     className="text-[#5E5C5A] text-[12px]"
@@ -120,7 +126,7 @@ export default function LQP2Create({ isOpen, onClose, refresh }) {
                                 />
                             </div>
                             <h1 className="text-MainColor text-[20px] mb-[15px]">
-                                Javob yaratish
+                                Javob o'zgartirish
                             </h1>
                             <div className="answerWrapper">
                                 {answers.map((answer, index) => (
@@ -139,8 +145,8 @@ export default function LQP2Create({ isOpen, onClose, refresh }) {
                                     </div>
                                 ))}
                             </div>
-                            <Button onClick={CreateQuestion} className="mt-2 bg-MainColor">
-                                Saqlash
+                            <Button onClick={EditQuestion} className="mt-2 bg-MainColor">
+                                O'zgartirish
                             </Button>
                         </div>
                     </div>

@@ -1,6 +1,44 @@
 import { Button } from '@material-tailwind/react';
+import axios from 'axios';
+import Swal from 'sweetalert2';
 
-export default function RQP2Delete({ isOpen, onClose }) {
+
+export default function QuestionDelete({ isOpen, onClose, id, refresh }) {
+
+    const DeleteQuestion = async () => {
+        try {
+            await axios.delete(`/questions/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            onClose()
+            refresh()
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+        catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    }
 
     return (
         <>
@@ -27,6 +65,7 @@ export default function RQP2Delete({ isOpen, onClose }) {
                                     Bekor qilish
                                 </Button>
                                 <Button
+                                    onClick={DeleteQuestion}
                                     fullWidth
                                     color="white"
                                     className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

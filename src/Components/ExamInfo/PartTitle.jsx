@@ -7,7 +7,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 
-export default function Part1Title({ data }) {
+export default function PartTitle({ data }) {
     const [open, setOpen] = useState(false);
     const [inputValue, setInputValue] = useState(data); // Store user input
     const [savedText, setSavedText] = useState(null); // Store saved text

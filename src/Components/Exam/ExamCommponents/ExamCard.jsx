@@ -7,7 +7,7 @@ import { NavLink } from "react-router-dom";
 import axios from "axios";
 
 export default function ExamCard({ isOpenEditModal, isOpenDeleteModal, data }) {
-    const [openAccordion, setOpenAccordion] = useState(null); 
+    const [openAccordion, setOpenAccordion] = useState(null);
 
     const handleAccordionToggle = (index) => {
         setOpenAccordion(openAccordion === index ? null : index);
@@ -48,22 +48,22 @@ export default function ExamCard({ isOpenEditModal, isOpenDeleteModal, data }) {
                             <Accordion open={openAccordion === index}>
                                 <AccordionBody>
                                     <div className="flex items-center gap-[10px] justify-center flex-wrap">
-                                        <NavLink to={`/exam/1/${i?.sections[0]?.id}?name=${encodeURIComponent(i?.name)}`}                                        >
+                                        <NavLink to={`/exam/listening/${i?.sections[0]?.id}?name=${encodeURIComponent(i?.name)}`}                                        >
                                             <button className="bg-[white] text-MainColor px-[25px] border-[2px] rounded-[5px] font-bold duration-500 py-[5px] hover:bg-transparent hover:text-white">
                                                 {i?.sections[0]?.name}
                                             </button>
                                         </NavLink>
-                                        <NavLink to={"/exam/1/reading"}>
+                                        <NavLink to={`/exam/reading/${i?.sections[1]?.id}?name=${encodeURIComponent(i?.name)}`} >
                                             <button className="bg-[white] text-MainColor px-[25px] border-[2px] rounded-[5px] font-bold duration-500 py-[5px] hover:bg-transparent hover:text-white">
                                                 {i?.sections[1]?.name}
                                             </button>
                                         </NavLink>
-                                        <NavLink to={"/exam/1/Speaking"}>
+                                        <NavLink to={`/exam/speaking/${i?.sections[3]?.id}?name=${encodeURIComponent(i?.name)}`}>
                                             <button className="bg-[white] text-MainColor px-[25px] border-[2px] rounded-[5px] font-bold duration-500 py-[5px] hover:bg-transparent hover:text-white">
                                                 {i?.sections[3]?.name}
                                             </button>
                                         </NavLink>
-                                        <NavLink to={"/exam/1/writing"}>
+                                        <NavLink to={`/exam/writing/${i?.sections[2]?.id}?name=${encodeURIComponent(i?.name)}`}>
                                             <button className="bg-[white] text-MainColor px-[28px] border-[2px] rounded-[5px] font-bold duration-500 py-[5px] hover:bg-transparent hover:text-white">
                                                 {i?.sections[2]?.name}
                                             </button>
