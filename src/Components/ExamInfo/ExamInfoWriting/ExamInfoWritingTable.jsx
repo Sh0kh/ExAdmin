@@ -48,7 +48,7 @@ export default function ExamInfoWritingTable({ data }) {
                                     <td
                                         className={`px-4 py-3 text-right rounded-r-lg shadow-md`}
                                     >
-                                        <NavLink to={`/exam/writing/part/${row?.id}?name=${name}`}>
+                                        <NavLink to={`/exam/writing/part/${index + 1}/${row?.id}?name=${name}`}>
                                             <button className="text-MainColor bg-[white] border-[white] duration-300 rounded-[5px] p-[5px] border-[2px] hover:bg-transparent hover:text-white">
                                                 <IoEyeSharp fontSize={22} />
                                             </button>

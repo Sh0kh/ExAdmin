@@ -77,9 +77,6 @@ export default function ReadingPart1() {
                             Savol yaratish
                         </button>
                     )}
-                    {/* <button onClick={() => setCreateQuestionsModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
-                        Javob yaratish
-                    </button> */}
                 </div>
             </div>
             <div className="mt-[20px]">
@@ -87,7 +84,7 @@ export default function ReadingPart1() {
                 <RQP1Text data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
             </div>
             <RQP1TextCreate refresh={getQuestion} isOpen={CreateTextModal} onClose={() => setCreateTextModal(false)} />
-            <RQP1Edit data={EditData}  refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <RQP1Edit data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
         </div>
     )

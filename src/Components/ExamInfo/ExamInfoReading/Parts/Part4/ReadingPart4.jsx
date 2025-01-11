@@ -79,7 +79,7 @@ export default function ReadingPart4() {
         <div className="Exam w-full p-[15px]">
             <div className="Header__wrapper">
                 <h1 className="text-MainColor text-[32px] font-[700]">
-                    Imtihon ・ Exam Name ・ Reading ・ 4 qism
+                    Imtihon ・ {name} ・ Reading ・ 4 qism
                 </h1>
                 <div className="flex items-center gap-[10px]">
                     <button onClick={() => setCreateModal2(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">

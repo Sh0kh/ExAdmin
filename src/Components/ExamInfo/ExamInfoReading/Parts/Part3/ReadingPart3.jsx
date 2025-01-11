@@ -94,7 +94,7 @@ export default function ReadingPart3() {
         <div className="Exam w-full p-[15px]">
             <div className="Header__wrapper">
                 <h1 className="text-MainColor text-[32px] font-[700]">
-                    Imtihon ・ Exam Name ・ Reading ・ 3 qism
+                    Imtihon ・ {name} ・ Reading ・ 3 qism
                 </h1>
                 <div className="flex items-center gap-[10px]">
                     {data?.right_text === null && (

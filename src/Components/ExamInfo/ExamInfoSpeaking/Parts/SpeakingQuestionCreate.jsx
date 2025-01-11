@@ -1,9 +1,62 @@
 import { useState } from "react";
-import { Button, Input } from '@material-tailwind/react';
+import { Button, Input, Checkbox } from '@material-tailwind/react';
+import Swal from 'sweetalert2';
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function SQP1Create({ isOpen, onClose }) {
 
+export default function SpeakingQuestionCreate({ isOpen, onClose, refresh }) {
+
+
+
+    const { id } = useParams()
     const [question, setquestion] = useState('');
+
+
+
+    const CreateQuestion = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("part_id", Number(id));
+            formData.append("question", question);
+            formData.append("type", "quiz");
+            formData.append("answers", JSON.stringify([]));
+
+            await axios.post('/questions', formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+
+            refresh()
+            setquestion('')
+            onClose();
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    };
+
 
     return (
         <>
@@ -31,6 +84,7 @@ export default function SQP1Create({ isOpen, onClose }) {
                                 className="border-MainColor text-[#2c3e50] bg-[]"
                             />
                             <Button
+                                onClick={CreateQuestion}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

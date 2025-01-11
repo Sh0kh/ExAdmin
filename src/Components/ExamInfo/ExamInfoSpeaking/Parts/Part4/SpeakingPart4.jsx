@@ -1,20 +1,20 @@
 import { useState } from "react";
-import SQP1Create from "./SQP1Create";
-import SQP1Questions from "./SQP1Questions";
-import { NavLink } from "react-router-dom";
-import SQP1Iamge from "./SQP1Iamge";
+import SQP3Questions from "./SQP3Questions";
+import SQPCreate from "./SQPCreate";
+import SQP3Good from "./SQP3Good";
+import SQP3Evil from "./SQP3Evil";
 
 
-export default function SpeakingPart1_2() {
+
+export default function SpeakingPart4() {
     const [CreateModal, setCreateModal] = useState(false)
-    const [EditModal, setEditModal] = useState(false)
-    const [DeleteModal, setDeleteModal] = useState(false)
+
 
     return (
         <div className="Exam w-full p-[15px]">
             <div className="Header__wrapper">
                 <h1 className="text-MainColor text-[32px] font-[700]">
-                    Imtihon ・ Exam Name ・ Speaking ・ 1/1 qism
+                    Imtihon ・ Exam Name ・ Speaking ・ 3 qism
                 </h1>
                 <div className="flex items-center gap-[10px]">
                     <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
@@ -23,12 +23,11 @@ export default function SpeakingPart1_2() {
                 </div>
             </div>
             <div className="mt-[20px]">
-                <SQP1Questions />
-                <SQP1Iamge/>
+                <SQP3Questions/>
+                <SQP3Good/>
+                <SQP3Evil/>
             </div>
-
-
-            <SQP1Create isOpen={CreateModal} onClose={() => setCreateModal(false)} />
+            <SQPCreate isOpen={CreateModal} onClose={()=>setCreateModal(false)}/>
         </div>
     )
 }

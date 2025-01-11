@@ -1,20 +1,17 @@
-import { useState, useEffect } from "react";
-import SpeakingQuestionCreate from "../SpeakingQuestionCreate";
+import { useEffect, useState } from "react";
+
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
-import SpeakingQuestions from "../SpeakingQuestions";
-import QuestionDelete from "../../../ExamComponent/QuestionDelete";
-import SpeakingQuestionEdit from "../SpeakingQuestionEdit";
+import WritingText from "../WritingText";
+import WritingCreate from "../WritingCreate";
+import WritingEdit from "../WritingEdit";
 
 
-export default function SpeakingPart1() {
+
+export default function WritingPart2() {
     const [CreateModal, setCreateModal] = useState(false)
     const [EditModal, setEditModal] = useState(false)
-    const [DeleteModal, setDeleteModal] = useState(false)
-
-    const [EditData, setEditData] = useState(null)
-    const [deleteId, setDeleteId] = useState(null)
     const { id } = useParams()
     const [searchParams] = useSearchParams();
     const name = searchParams.get("name");
@@ -28,7 +25,7 @@ export default function SpeakingPart1() {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             })
-            setData(response?.data?.questions)
+            setData(response?.data?.description)
         } catch (error) {
             console.log(error)
         } finally {
@@ -41,15 +38,12 @@ export default function SpeakingPart1() {
     }, [])
 
 
-    const handleEditModalOpen = (data) => {
-        setEditData(data);
+    const handleEditModalOpen = () => {
         setEditModal(true);
     };
 
-    const handleDeleteModalOpen = (id) => {
-        setDeleteId(id);
-        setDeleteModal(true);
-    };
+
+
 
     if (loading) {
         return (
@@ -59,36 +53,33 @@ export default function SpeakingPart1() {
         );
     }
 
-
-
     return (
         <div className="Exam w-full p-[15px]">
             <div className="Header__wrapper">
                 <h1 className="text-MainColor text-[32px] font-[700]">
-                    Imtihon ・ {name} ・ Speaking ・ 1 qism
+                    Imtihon ・ {name} ・ Reading ・ 2 qism
                 </h1>
                 <div className="flex items-center gap-[10px]">
-                    <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
-                        Savol yaratish
-                    </button>
+                    {data === null && (
+                        <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
+                            Vazifa yaratish
+                        </button>
+                    )}
                 </div>
             </div>
             <div className="mt-[20px]">
-                {data && data?.length > 0 ? (
-                    <SpeakingQuestions Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data} />
-                ) : (
+                {data === null ? (
                     <div className="w-full h-[404px] flex items-center justify-center ">
                         <h1 className="font-bold text-[25px]">
                             Bo`sh
                         </h1>
                     </div>
+                ) : (
+                    <WritingText data={data} editModal={handleEditModalOpen}  />
                 )}
             </div>
-
-
-            <SpeakingQuestionCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
-            <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
-            <SpeakingQuestionEdit data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <WritingCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
+            <WritingEdit data={data} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
         </div>
     )
 }

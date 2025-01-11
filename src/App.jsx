@@ -33,8 +33,9 @@ import ReadingPart5 from "./Components/ExamInfo/ExamInfoReading/Parts/Part5/Read
 import ExamInfoSpeaking from "./Pages/ExamInfoSpeaking";
 import SpeakingPart2 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part2/SpeakingPart2";
 import SpeakingPart1 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part1/SpeakingPart1";
-import SpeakingPart1_2 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part1/SpeakingPart1_2";
 import SpeakingPart3 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part3/SpeakingPart3";
+import WritingPart2 from "./Components/ExamInfo/ExamInfoWriting/Part/Part2/WritingPart2";
+import SpeakingPart4 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part4/SpeakingPart4";
 
 function ProtectedRoute() {
   const token = localStorage.getItem("token");
@@ -88,15 +89,16 @@ function App() {
               {/* Reading Parts */}
               <Route path="/exam/writing/:id" element={<ExamInfoWritnig />} />
               {/* Writing Parts */}
-              <Route path="/exam/writing/part/:id" element={<WritingPart1 />} />
+              <Route path="/exam/writing/part/1/:id" element={<WritingPart1 />} />
+              <Route path="/exam/writing/part/2/:id" element={<WritingPart2 />} />
               {/* Writing Parts */}
 
               <Route path="/exam/speaking/:id" element={<ExamInfoSpeaking />} />
 
               <Route path="/exam/speaking/part/1/:id" element={<SpeakingPart1 />} />
-              <Route path="/exam/speaking/part/2/:id" element={<SpeakingPart1_2 />} />
               <Route path="/exam/speaking/part/2/:id" element={<SpeakingPart2 />} />
               <Route path="/exam/speaking/part/3/:id" element={<SpeakingPart3 />} />
+              <Route path="/exam/speaking/part/4/:id" element={<SpeakingPart4 />} />
             </Route>
           </Route>
         </Route>

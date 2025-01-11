@@ -1,9 +1,64 @@
-import { useState } from "react";
-import { Button, Input } from '@material-tailwind/react';
+import { useEffect, useState } from "react";
+import { Button, Input, Checkbox } from '@material-tailwind/react';
+import Swal from 'sweetalert2';
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
-export default function SQPCreate({ isOpen, onClose }) {
 
+export default function SpeakingQuestionEdit({ isOpen, onClose, refresh, data }) {
+
+
+
+
+    const { id } = useParams()
     const [question, setquestion] = useState('');
+
+    useEffect(() => {
+        setquestion(data?.question)
+    }, [data])
+
+
+    const CreateQuestion = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("part_id", Number(id));
+            formData.append("question", question);
+            formData.append("type", "quiz");
+            formData.append("answers", JSON.stringify([]));
+
+            await axios.put(`/questions/${data?.id}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            refresh()
+            onClose();
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    };
+
 
     return (
         <>
@@ -12,7 +67,7 @@ export default function SQPCreate({ isOpen, onClose }) {
                     <div className='p-[10px] pb-[30px]'>
                         <div className='flex items-center justify-between pt-[10px] pb-[20px]'>
                             <h1 className='text-MainColor text-[20px]'>
-                                Savol yaratish
+                                Savol o'zgartirish
                             </h1>
                             <button onClick={onClose}>
                                 <svg className='text-[#5E5C5A] text-[12px]' xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 14 14">
@@ -31,11 +86,12 @@ export default function SQPCreate({ isOpen, onClose }) {
                                 className="border-MainColor text-[#2c3e50] bg-[]"
                             />
                             <Button
+                                onClick={CreateQuestion}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"
                             >
-                                Yaratish
+                                O'zgartirish
                             </Button>
                         </div>
                     </div>
