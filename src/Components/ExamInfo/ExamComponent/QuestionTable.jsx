@@ -12,9 +12,10 @@ export default function QuestionTable({ Edit, Delete, data }) {
 
 
 
+
     return (
         <div className="flex items-start justify-start gap-[15px] flex-col">
-            {data.map((question, index) => (
+            {data?.map((question, index) => (
                 <Accordion key={question.id} open={open === index} className="rounded-[10px]">
                     <AccordionHeader
                         onClick={() => handleToggle(index)}

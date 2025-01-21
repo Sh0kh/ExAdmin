@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import RQP3Create from "./RQP3Create";
-import RQP3Edit from "./RQP3Edit";
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
@@ -9,8 +7,10 @@ import QuestionTextEdit from "../QuestionTextEdit";
 import QuestionText from "../QuestionText";
 import Paragraph from "../Paragraph";
 import ParagraphCreate from "../ParagraphCreate";
-import RQP3Text from "./RQP3Text";
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
+import QuestionCreate from "../../../ExamComponent/QuestionCreate";
+import QuestionEdit from "../../../ExamComponent/QuestionEdit";
+import QuestionTable from "../../../ExamComponent/QuestionTable";
 
 
 
@@ -110,12 +110,12 @@ export default function ReadingPart3() {
             <div className="mt-[20px]">
                 <Paragraph Create={handlParagraph} data={paragraph} />
                 <QuestionText data={data?.right_text} Edit={handleEditTextModalOpen} />
-                <RQP3Text Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data} />
+                <QuestionTable Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data?.questions} />
             </div>
             <QuestionTextCreate refresh={getQuestion} isOpen={createModalText} onClose={() => setCreateModalText(false)} />
             <QuestionTextEdit refresh={getQuestion} data={data} isOpen={EditTextModal} onClose={() => setEditTextModal(false)} />
-            <RQP3Create refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
-            <RQP3Edit data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <QuestionCreate refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
+            <QuestionEdit data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete refresh={getQuestion} id={deleteId} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
             <ParagraphCreate data={data} type={paragraphType} refresh={getQuestion} isOpen={ParagraphModal} onClose={() => setParagraphModal(false)} />
         </div>

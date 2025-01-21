@@ -50,7 +50,7 @@ export default function QuestionCreate({ isOpen, onClose, refresh }) {
             const formData = new FormData();
             formData.append("part_id", Number(id));
             formData.append("question", question);
-            formData.append("type", "quiz");
+            formData.append("type", "writing");
             formData.append("answers", JSON.stringify(options.map(opt => ({
                 answer: opt.answer,
                 is_correct: opt.is_correct ? 1 : 0,

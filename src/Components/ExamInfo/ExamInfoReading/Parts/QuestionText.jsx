@@ -14,7 +14,7 @@ export default function QuestionText({ Edit, data }) {
     return (
         <>
             {data ? (
-                <div>
+                <div className="mb-[30px]">
                     <div className="bg-MainColor rounded-[10px] p-[10px] text-[white]">
                         <div className="flex items-center justify-between">
                             <h1 className="text-[20px]">Savol matini</h1>

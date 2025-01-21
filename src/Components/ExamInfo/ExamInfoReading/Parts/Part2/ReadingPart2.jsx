@@ -7,10 +7,10 @@ import axios from "axios";
 import ReactLoading from "react-loading";
 import PartTitle from "../../../PartTitle";
 import PartFoto from "../../../PartFoto";
-import RQP2Create from "./RQP2Create";
-import RQP2Question from "./RQP2Question";
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
-import RQP2EditQuestion from "./RQP2EditQuestion";
+import QuestionTable from "../../../ExamComponent/QuestionTable";
+import QuestionCreate from "../../../ExamComponent/QuestionCreate";
+import QuestionEdit from "../../../ExamComponent/QuestionEdit";
 
 
 
@@ -103,7 +103,7 @@ export default function ReadingPart2() {
                 <PartFoto data={foto} />
                 <QuestionText data={data?.right_text} Edit={handleEditTextModalOpen} />
                 {data?.questions?.length > 0 ? (
-                    <RQP2Question Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data} />
+                    <QuestionTable Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data?.questions} />
                 ) : (
                     <div className="w-full h-[404px] flex items-center justify-center ">
                         <h1 className="font-bold text-[25px]">
@@ -112,11 +112,12 @@ export default function ReadingPart2() {
                     </div>
                 )}
             </div>
-            <QuestionTextCreate refresh={getQuestion} isOpen={createModalText} onClose={() => setCreateModalText(false)} />
-            <RQP2Create refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
-            <QuestionTextEdit refresh={getQuestion} data={data} isOpen={EditTextModal} onClose={() => setEditTextModal(false)} />
+            <QuestionCreate refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
+            <QuestionEdit data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete refresh={getQuestion} id={deleteId} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
-            <RQP2EditQuestion data={EditData} isOpen={EditModal} onClose={()=>setEditModal(false)}/>
+
+            <QuestionTextCreate refresh={getQuestion} isOpen={createModalText} onClose={() => setCreateModalText(false)} />
+            <QuestionTextEdit refresh={getQuestion} data={data} isOpen={EditTextModal} onClose={() => setEditTextModal(false)} />
         </div>
     )
 }

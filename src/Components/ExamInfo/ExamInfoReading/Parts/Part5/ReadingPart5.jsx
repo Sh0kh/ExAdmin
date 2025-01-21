@@ -16,6 +16,9 @@ import QuestionTextEdit from "../QuestionTextEdit";
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
 import RQP5EditText from "./RQP5EditText";
 import RQP5QuestionEdit from "./RQP5QuestionEdit";
+import QuestionTable from "../../../ExamComponent/QuestionTable";
+import QuestionCreate from "../../../ExamComponent/QuestionCreate";
+import QuestionEdit from "../../../ExamComponent/QuestionEdit";
 
 
 
@@ -112,7 +115,7 @@ export default function ReadingPart5() {
                     </button>
                     {data?.right_text === null && (
                         <button onClick={() => setCreateModalText(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
-                            Savol yaratish
+                            Matn yaratish
                         </button>
                     )}
                 </div>
@@ -121,7 +124,7 @@ export default function ReadingPart5() {
                 <Paragraph Create={handlParagraph} data={paragraph} />
                 <QuestionText data={data?.right_text} Edit={handleEditTextModalOpen} />
                 <RQP5Text data={data?.questions} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
-                <RQP5TextQuestion Edit={handleEditQuestionModalOpen} Delete={handleDeleteModalOpen} data={data} />
+                <QuestionTable Edit={handleEditQuestionModalOpen} Delete={handleDeleteModalOpen} data={data?.questions} />
             </div>
 
             <ParagraphCreate data={data} type={paragraphType} refresh={getQuestion} isOpen={ParagraphModal} onClose={() => setParagraphModal(false)} />
@@ -130,8 +133,8 @@ export default function ReadingPart5() {
             <RQP5TextCreate refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
             <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
             <RQP5EditText data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
-            <RQP5CreateQuestion refresh={getQuestion} isOpen={createModal2} onClose={() => setCreateModal2(false)} />
-            <RQP5QuestionEdit data={EditData} isOpen={EditQuestionModal} onClose={() => setEditQuestionModal(false)} />
+            <QuestionCreate refresh={getQuestion} isOpen={createModal2} onClose={() => setCreateModal2(false)} />
+            <QuestionEdit data={EditData} isOpen={EditQuestionModal} onClose={() => setEditQuestionModal(false)} />
         </div>
     )
 }

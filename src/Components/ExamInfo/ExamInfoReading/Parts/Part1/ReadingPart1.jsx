@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import RQP1TextCreate from "./RQP1TextCreate";
-import RQP1Text from "./RQP1Text";
 import RQP1Edit from "./RQP1Edit";
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import PartTitle from "../../../PartTitle"
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
+import Text from "../../../ExamComponent/Text";
+import TextCreate from "../../../ExamComponent/TextCreate";
+import TextEdit from "../../../ExamComponent/TextEdit";
 
 
 
@@ -81,10 +83,10 @@ export default function ReadingPart1() {
             </div>
             <div className="mt-[20px]">
                 <PartTitle data={title} />
-                <RQP1Text data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
+                <Text data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
             </div>
-            <RQP1TextCreate refresh={getQuestion} isOpen={CreateTextModal} onClose={() => setCreateTextModal(false)} />
-            <RQP1Edit data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <TextCreate refresh={getQuestion} isOpen={CreateTextModal} onClose={() => setCreateTextModal(false)} />
+            <TextEdit data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
         </div>
     )

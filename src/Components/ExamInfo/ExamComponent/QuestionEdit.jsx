@@ -7,6 +7,7 @@ export default function QuestionEdit({ isOpen, onClose, data, refresh }) {
     const [question, setQuestion] = useState("");
     const [options, setOptions] = useState([]);
 
+
     useEffect(() => {
         if (data) {
             const initialOptions = data?.answers?.map((answer, index) => ({
@@ -50,7 +51,7 @@ export default function QuestionEdit({ isOpen, onClose, data, refresh }) {
     const editQuestion = async () => {
         try {
             const editData = {
-                type: "quiz",
+                type: "writing",
                 question,
                 answer: options.map((option) => ({
                     answer: option.text,

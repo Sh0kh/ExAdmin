@@ -1,15 +1,13 @@
 import { useEffect, useState } from "react";
-import RQPTextCreate from "./RQPTextCreate";
-import RQP4Text from "./RQP4Text";
-import RQP4Question from "./RQP4Question";
-import RQP4Create from "./RQP4Create";
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
-import RQP4Edit from "./RQP4Edit";
 import Paragraph from "../Paragraph";
 import ParagraphCreate from "../ParagraphCreate";
+import QuestionTable from "../../../ExamComponent/QuestionTable";
+import QuestionCreate from "../../../ExamComponent/QuestionCreate";
+import QuestionEdit from "../../../ExamComponent/QuestionEdit";
 
 
 
@@ -89,15 +87,15 @@ export default function ReadingPart4() {
             </div>
             <div className="mt-[20px]">
                 <Paragraph Create={handlParagraph} data={paragraph} />
-                <RQP4Question Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data} />
+                <QuestionTable Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data?.questions} />
             </div>
 
 
             <ParagraphCreate data={data} type={paragraphType} refresh={getQuestion} isOpen={ParagraphModal} onClose={() => setParagraphModal(false)} />
 
 
-            <RQP4Create refresh={getQuestion} isOpen={createModal2} onClose={() => setCreateModal2(false)} />
-            <RQP4Edit data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <QuestionCreate refresh={getQuestion} isOpen={createModal2} onClose={() => setCreateModal2(false)} />
+            <QuestionEdit data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete refresh={getQuestion} id={deleteId} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
         </div>
     )
