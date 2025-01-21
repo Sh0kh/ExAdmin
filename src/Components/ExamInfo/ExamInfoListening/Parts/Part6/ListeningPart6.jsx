@@ -7,6 +7,9 @@ import { useParams, useSearchParams } from "react-router-dom";
 import PartTitle from "../../../PartTitle"
 import axios from "axios";
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
+import Text from "../../../ExamComponent/Text";
+import TextCreate from "../../../ExamComponent/TextCreate";
+import TextEdit from "../../../ExamComponent/TextEdit";
 
 export default function ListeningPart6() {
     const [CreateModal, setCreateModal] = useState(false)
@@ -67,17 +70,19 @@ export default function ListeningPart6() {
                 <h1 className="text-MainColor text-[32px] font-[700]">
                     Imtihon ・ {name} ・ Listening ・ 6 qism
                 </h1>
-                <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
-                    Savol yaratish
-                </button>
+                {!data[0] && (
+                    <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
+                        Matn yaratish
+                    </button>
+                )}
             </div>
             <div className="mt-[20px]">
                 <PartTitle data={title} />
-                <LQP6Table data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
+                <Text data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
             </div>
 
-            <LQP6Create refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
-            <LQP6Eidt refresh={getQuestion} data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <TextCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
+            <TextEdit refresh={getQuestion} data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete refresh={getQuestion} id={deleteId} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
         </div>
     )

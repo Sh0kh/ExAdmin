@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
-export default function LQP2Text({ Edit, Delete, data }) {
+export default function Text({ Edit, Delete, data }) {
     const [text, setText] = useState(data[0]);
 
 

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import LQP1Create from "./LQP1Create";
-import LQP1Questions from "./LQP1Questions";
-import LQP1Edit from "./LQP1Edit";
 import PartTitle from "../../../PartTitle";
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
+import QuestionCreate from "../../../ExamComponent/QuestionCreate";
+import QuestionEdit from "../../../ExamComponent/QuestionEdit";
+import QuestionTable from "../../../ExamComponent/QuestionTable";
 
 
 
@@ -74,10 +74,10 @@ export default function ListeningPart1() {
             </div>
             <div className="mt-[20px]">
                 <PartTitle data={title} />
-                <LQP1Questions data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
+                <QuestionTable data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
             </div>
-            <LQP1Create refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
-            <LQP1Edit refresh={getQuestion} data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <QuestionCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
+            <QuestionEdit refresh={getQuestion} data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete refresh={getQuestion} id={deleteId} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
         </div>
     )

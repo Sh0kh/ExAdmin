@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react"
-import LQP4Create from "./LQP4Create"
-import LQP4Table from "./LQP4Table"
-import LQP4Edit from "./LQP4Edit"
 import axios from "axios";
 import ReactLoading from "react-loading";
 import { useParams, useSearchParams } from "react-router-dom"
 import PartTitle from "../../../PartTitle"
 import QuestionDelete from "../../../ExamComponent/QuestionDelete"
 import PartFoto from "../../../PartFoto"
+import QuestionCreate from "../../../ExamComponent/QuestionCreate";
+import QuestionEdit from "../../../ExamComponent/QuestionEdit";
+import QuestionTable from "../../../ExamComponent/QuestionTable";
 
 export default function ListeningPart4() {
 
@@ -77,12 +77,12 @@ export default function ListeningPart4() {
             </div>
             <div className="mt-[20px]">
                 <PartTitle data={title} />
-                <PartFoto data={FotoPath}/>
-                <LQP4Table data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
+                <PartFoto data={FotoPath} />
+                <QuestionTable data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
             </div>
-            <LQP4Create refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
+            <QuestionCreate refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
             <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={deleteModal} onClose={() => setDeleteModal(false)} />
-            <LQP4Edit refresh={getQuestion} data={EditData} isOpen={editModal} onClose={() => setEditModal(false)} />
+            <QuestionEdit refresh={getQuestion} data={EditData} isOpen={editModal} onClose={() => setEditModal(false)} />
         </div>
     )
 }

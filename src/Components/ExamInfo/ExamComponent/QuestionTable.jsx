@@ -3,7 +3,7 @@ import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react";
 
-export default function LQP4Table({ Edit, Delete, data }) {
+export default function QuestionTable({ Edit, Delete, data }) {
     const [open, setOpen] = React.useState(false);
 
     const handleToggle = (index) => {
@@ -21,7 +21,7 @@ export default function LQP4Table({ Edit, Delete, data }) {
                         className="bg-MainColor p-4 rounded-[10px] cursor-pointer"
                     >
                         <div className="flex items-center justify-between w-full">
-                            <h1 className="text-white">Speaker {index + 1}</h1>
+                            <h1 className="text-white">Question {index + 1}</h1>
                             <div className="flex items-center gap-2">
                                 <button
                                     className="p-2 border-2 border-white text-MainColor bg-white rounded-[5px] hover:bg-transparent hover:text-white"

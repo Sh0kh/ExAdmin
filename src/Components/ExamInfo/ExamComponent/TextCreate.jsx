@@ -6,7 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
-export default function LQP2Create({ isOpen, onClose, refresh }) {
+export default function TextCreate({ isOpen, onClose, refresh }) {
     const [content, setContent] = useState("");
     const [answers, setAnswers] = useState([]);
     const { id } = useParams()

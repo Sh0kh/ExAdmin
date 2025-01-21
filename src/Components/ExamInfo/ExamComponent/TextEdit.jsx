@@ -6,7 +6,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 
-export default function LQP2Edit({ isOpen, onClose, refresh, data }) {
+export default function TextEdit({ isOpen, onClose, refresh, data }) {
     const [content, setContent] = useState("");
     const [answers, setAnswers] = useState([]);
     const { id } = useParams();
