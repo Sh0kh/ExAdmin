@@ -1,10 +1,6 @@
 import { useEffect, useState } from "react";
 import RQP5TextCreate from "./RQP5TextCreate";
-import RQP5CreateQuestion from "./RQP5CreateQuestion";
-import RQP5QuestionCreate from "./RQP5QuestionEdit";
 import RQP5Text from "./RQP5Text";
-import RQP5Question from "./RQP5Question";
-import RQP5TextQuestion from "./RQP5TextQuestion";
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
@@ -15,7 +11,6 @@ import QuestionTextCreate from "../QuestionTextCreate";
 import QuestionTextEdit from "../QuestionTextEdit";
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
 import RQP5EditText from "./RQP5EditText";
-import RQP5QuestionEdit from "./RQP5QuestionEdit";
 import QuestionTable from "../../../ExamComponent/QuestionTable";
 import QuestionCreate from "../../../ExamComponent/QuestionCreate";
 import QuestionEdit from "../../../ExamComponent/QuestionEdit";
