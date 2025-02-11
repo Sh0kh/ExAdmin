@@ -2,13 +2,13 @@ import { useState } from "react";
 import AdminsCreate from "../Components/Admins/AdminsCreate";
 import AdminsTable from "../Components/Admins/AdminsTable";
 import AdminsEdit from "../Components/Admins/AdminsEdit";
-import AdminsDelete from "../Components/Admins/AdminsDelete";
 
 export default function Admins() {
 
     const [CreateModal, setCreateModal] = useState(false)
     const [EditModal, setEditModal] = useState(false)
-    const [DeleteModal, setDeleteModal] = useState(false)
+    const [EditModalData, setEditModalData] = useState([]);
+
     return (
         <div className="Admins p-[15px]">
             <div className="Header__wrapper">
@@ -20,11 +20,10 @@ export default function Admins() {
                 </button>
             </div>
             <div>
-                <AdminsTable EditModal={() => setEditModal(true)} DeleteModal={() => setDeleteModal(true)} />
+                <AdminsTable setEditModalData={setEditModalData} setEditModal={setEditModal} />
             </div>
             <AdminsCreate isOpen={CreateModal} onClose={() => setCreateModal(false)} />
-            <AdminsEdit isOpen={EditModal} onClose={() => setEditModal(false)} />
-            <AdminsDelete isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
+            <AdminsEdit data={EditModalData} isOpen={EditModal} onClose={() => setEditModal(false)} />
         </div>
     )
 }
