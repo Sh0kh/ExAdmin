@@ -78,6 +78,7 @@ export default function SpeakingPart3() {
                     </button>
                 </div>
             </div>
+
             <div className="mt-[20px]">
                 <PartFoto data={foto} />
                 {data && data?.length > 0 ? (

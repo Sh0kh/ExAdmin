@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Input } from "@material-tailwind/react";
 import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Подключение стилей
+import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
@@ -32,7 +32,7 @@ export default function TextCreate({ isOpen, onClose, refresh }) {
     const handleAnswerChange = (index, value) => {
         const updatedAnswers = [...answers];
         updatedAnswers[index].answer = value;
-        updatedAnswers[index].is_correct = "1"; // Передаем значение в is_correct
+        updatedAnswers[index].is_correct = "1";
         setAnswers(updatedAnswers);
     };
 

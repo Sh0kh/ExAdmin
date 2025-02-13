@@ -19,7 +19,7 @@ export default function SpeakingQuestionCreate({ isOpen, onClose, refresh }) {
             const formData = new FormData();
             formData.append("part_id", Number(id));
             formData.append("question", question);
-            formData.append("type", "quiz");
+            formData.append("type", "speaking");
             formData.append("answers", JSON.stringify([]));
 
             await axios.post('/questions', formData, {

@@ -1,39 +1,31 @@
 import { useEffect, useState } from "react";
-import { Button, Input, Checkbox } from '@material-tailwind/react';
+import { Button } from '@material-tailwind/react';
+import ReactQuill from "react-quill";
 import Swal from 'sweetalert2';
-import axios from "axios";
+import 'react-quill/dist/quill.snow.css'; // или 'quill.bubble.css'
 import { useParams } from "react-router-dom";
+import axios from "axios";
 
-
-export default function SpeakingQuestionEdit({ isOpen, onClose, refresh, data }) {
-
-
-
-
+export default function SQP3BadCreateModal({ data, isOpen, onClose }) {
     const { id } = useParams()
-    const [question, setquestion] = useState('');
+    const [BadText, setBadText] = useState();
 
     useEffect(() => {
-        setquestion(data?.question)
-    }, [data])
+        setBadText(data?.right_text)
+    }, [])
 
-
-    const CreateQuestion = async () => {
+    const updatePart = async () => {
         try {
             const formData = new FormData();
-            formData.append("part_id", Number(id));
-            formData.append("question", question);
-            formData.append("type", "speaking");
-            formData.append("answers", JSON.stringify([]));
+            formData.append('right_text', BadText);
 
-            await axios.put(`/questions/${data?.id}`, formData, {
+            await axios.post(`/part-update/${id}`, formData, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    "Content-Type": "multipart/form-data",
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'multipart/form-data',
                 },
             });
-            refresh()
-            onClose();
+            onClose()
             Swal.fire({
                 title: 'Muvaffaqiyatli!',
                 icon: 'success',
@@ -59,7 +51,6 @@ export default function SpeakingQuestionEdit({ isOpen, onClose, refresh, data })
         }
     };
 
-
     return (
         <>
             <div className={`Modal ${isOpen ? "open" : ""}`} onClick={onClose}>
@@ -67,7 +58,7 @@ export default function SpeakingQuestionEdit({ isOpen, onClose, refresh, data })
                     <div className='p-[10px] pb-[30px]'>
                         <div className='flex items-center justify-between pt-[10px] pb-[20px]'>
                             <h1 className='text-MainColor text-[20px]'>
-                                Savol o'zgartirish
+                                Salbiy tomon
                             </h1>
                             <button onClick={onClose}>
                                 <svg className='text-[#5E5C5A] text-[12px]' xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 14 14">
@@ -76,22 +67,19 @@ export default function SpeakingQuestionEdit({ isOpen, onClose, refresh, data })
                             </button>
                         </div>
                         <div>
-                            <Input
-                                label="Savol"
-                                value={question}
-                                onChange={(e) => setquestion(e.target.value)}
-                                color="#2c3e50"
-                                type="text"
-                                required
-                                className="border-MainColor text-[#2c3e50] bg-[]"
+                            <ReactQuill
+                                value={BadText}
+                                onChange={setBadText}
+                                className="h-[300px]"
+                                theme="snow"
                             />
                             <Button
-                                onClick={CreateQuestion}
+                                onClick={updatePart}
                                 fullWidth
                                 color="white"
-                                className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"
+                                className="bg-MainColor mt-[80px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"
                             >
-                                O'zgartirish
+                                Saqlash
                             </Button>
                         </div>
                     </div>

@@ -1,12 +1,55 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from '@material-tailwind/react';
 import ReactQuill from "react-quill";
+import Swal from 'sweetalert2';
 import 'react-quill/dist/quill.snow.css'; // или 'quill.bubble.css'
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
-export default function SQP3GoodCreateModal({ isOpen, onClose }) {
+export default function SQP3GoodCreateModal({ data, isOpen, onClose }) {
+    const { id } = useParams()
+    const [goodText, setGoodText] = useState();
 
-    const [question, setQuestion] = useState('');
+    useEffect(() => {
+        setGoodText(data?.description)
+    }, [])
 
+    const updatePart = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('description', goodText);
+
+            await axios.post(`/part-update/${id}`, formData, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            onClose()
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    };
 
     return (
         <>
@@ -15,7 +58,7 @@ export default function SQP3GoodCreateModal({ isOpen, onClose }) {
                     <div className='p-[10px] pb-[30px]'>
                         <div className='flex items-center justify-between pt-[10px] pb-[20px]'>
                             <h1 className='text-MainColor text-[20px]'>
-                                Ijobiy tomoni yaratish
+                                Ijobiy tomon
                             </h1>
                             <button onClick={onClose}>
                                 <svg className='text-[#5E5C5A] text-[12px]' xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 14 14">
@@ -25,17 +68,18 @@ export default function SQP3GoodCreateModal({ isOpen, onClose }) {
                         </div>
                         <div>
                             <ReactQuill
-                                value={question}
-                                onChange={setQuestion} // ReactQuill возвращает значение напрямую
+                                value={goodText}
+                                onChange={setGoodText}
                                 className="h-[300px]"
-                                theme="snow" // Используйте "snow" или "bubble"
+                                theme="snow"
                             />
                             <Button
+                                onClick={updatePart}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[80px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"
                             >
-                                Yaratish
+                                Saqlash
                             </Button>
                         </div>
                     </div>

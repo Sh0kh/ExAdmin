@@ -12,7 +12,6 @@ export default function QuestionCreate({ isOpen, onClose, refresh }) {
     const addOption = () => {
         setOptions([...options, { answer: '', is_correct: false }]);
     };
-
     const updateOption = (index, field, value) => {
         const updatedOptions = options.map((option, i) => ({
             ...option,
@@ -28,9 +27,7 @@ export default function QuestionCreate({ isOpen, onClose, refresh }) {
     };
 
     const createQuestion = async () => {
-        // Check if all options have an answer and at least one correct answer
-        const isValid = options.every(option => option.answer.trim() !== '' && (option.is_correct || false));
-
+        const isValid = options.some(option => option.is_correct) && options.every(option => option.answer.trim() !== '');
         if (!isValid) {
             Swal.fire({
                 title: 'Error!',
