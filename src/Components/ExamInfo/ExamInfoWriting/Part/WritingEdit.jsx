@@ -4,15 +4,15 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Подключение стилей
 import axios from "axios";
 import Swal from "sweetalert2";
-import { useParams } from "react-router-dom";
 
 export default function WritingEdit({ data, isOpen, onClose, refresh }) {
     const [content, setContent] = useState('');
-    const { id } = useParams()
+
+    // console.log(data)
 
     useEffect(() => {
         if (data) {
-            setContent(data);
+            setContent(data?.question);
         }
     }, [data]);
 
@@ -21,7 +21,8 @@ export default function WritingEdit({ data, isOpen, onClose, refresh }) {
         try {
             const formData = new FormData();
             formData.append("description", content);
-            await axios.post(`/part-update/${id}`, formData, {
+            formData.append("type", "essay");
+            await axios.put(`/questions/${data?.id}`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "multipart/form-data",

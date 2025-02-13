@@ -11,6 +11,7 @@ import WritingEdit from "../WritingEdit";
 
 export default function WritingPart2() {
     const [CreateModal, setCreateModal] = useState(false)
+    const [EditData, setEditData] = useState(null)
     const [EditModal, setEditModal] = useState(false)
     const { id } = useParams()
     const [searchParams] = useSearchParams();
@@ -24,23 +25,31 @@ export default function WritingPart2() {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-            })
-            setData(response?.data?.description)
+            });
+            setData({
+                id: response?.data?.questions[0]?.id,
+                question: response?.data?.questions[0]?.question
+            });
         } catch (error) {
-            console.log(error)
+            console.log(error);
         } finally {
-            setLoading(false)
+            setLoading(false);
         }
-    }
+    };
 
     useEffect(() => {
         getQuestion()
     }, [])
 
 
-    const handleEditModalOpen = () => {
+    const handleEditModalOpen = (data) => {
         setEditModal(true);
+        setEditData(data);
     };
+
+
+
+    console.log(EditData);
 
 
 
@@ -75,11 +84,11 @@ export default function WritingPart2() {
                         </h1>
                     </div>
                 ) : (
-                    <WritingText data={data} editModal={handleEditModalOpen}  />
+                    <WritingText data={data} editModal={handleEditModalOpen} />
                 )}
             </div>
             <WritingCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
-            <WritingEdit data={data} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <WritingEdit data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
         </div>
     )
 }

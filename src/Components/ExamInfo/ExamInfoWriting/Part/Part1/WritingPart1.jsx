@@ -13,7 +13,6 @@ export default function WritingPart1() {
     const [EditModal, setEditModal] = useState(false)
     const [DeleteModal, setDeleteModal] = useState(false)
 
-
     const [EditData, setEditData] = useState(null)
     const [deleteId, setDeleteId] = useState(null)
     const { id } = useParams()
@@ -28,8 +27,8 @@ export default function WritingPart1() {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
-            })
-            setData(response?.data?.description)
+            })            
+            setData(response?.data?.questions[0])
         } catch (error) {
             console.log(error)
         } finally {
@@ -43,6 +42,7 @@ export default function WritingPart1() {
 
 
     const handleEditModalOpen = (data) => {
+        console.log(data)
         setEditData(data);
         setEditModal(true);
     };
@@ -87,7 +87,7 @@ export default function WritingPart1() {
                 )}
             </div>
             <WritingCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
-            <WritingEdit data={data} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <WritingEdit data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
         </div>
     )
 }

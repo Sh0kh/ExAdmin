@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
-import RQP1TextCreate from "./RQP1TextCreate";
-import RQP1Edit from "./RQP1Edit";
+
 import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
@@ -14,10 +13,8 @@ import TextEdit from "../../../ExamComponent/TextEdit";
 
 export default function ReadingPart1() {
     const [CreateTextModal, setCreateTextModal] = useState(false)
-    const [CreateQuestionModal, setCreateQuestionsModal] = useState(false)
     const [EditModal, setEditModal] = useState(false)
     const [DeleteModal, setDeleteModal] = useState(false)
-
     const [EditData, setEditData] = useState(null)
     const [deleteId, setDeleteId] = useState(null)
     const { id } = useParams()

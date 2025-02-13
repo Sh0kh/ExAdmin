@@ -20,8 +20,10 @@ export default function WritingCreate({ data, isOpen, onClose, refresh, type }) 
     const CreateQuestion = async () => {
         try {
             const formData = new FormData();
-            formData.append("description", content);
-            await axios.post(`/part-update/${id}`, formData, {
+            formData.append("part_id", Number(id));
+            formData.append("question", content);
+            formData.append("type", "essay");
+            await axios.post(`/questions`, formData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                     "Content-Type": "multipart/form-data",
