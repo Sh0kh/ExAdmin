@@ -17,8 +17,6 @@ export default function RQP5TextCreate({ isOpen, onClose, refresh }) {
         // Подсчёт количества вхождений ключевого слова "inputext"
         const matches = value.match(/inputext/g) || [];
         const matchCount = matches.length;
-
-        // Обновление количества ответов с ограничением до 8
         const limitedAnswers = Math.min(matchCount, 8);
         setAnswers((prevAnswers) =>
             Array.from({ length: limitedAnswers }, (_, index) => ({
@@ -40,7 +38,7 @@ export default function RQP5TextCreate({ isOpen, onClose, refresh }) {
     const CreateQuestion = async () => {
         try {
             const formData = new FormData();
-            formData.append("part_id", Number(id)); // Убедитесь, что id определен
+            formData.append("part_id", Number(id));
             formData.append("type", "writing");
             formData.append("question", content);
 

@@ -53,7 +53,6 @@ export default function Paragraph({ Create, data }) {
                     </div>
                 </div>
             )}
-
-        </div> 
+        </div>
     );
 }

@@ -1,21 +1,22 @@
-import React from "react";
-import { MdEdit } from "react-icons/md";
-import { MdDelete } from "react-icons/md";
+import React, { useState, useMemo } from "react";
+import { MdEdit, MdDelete } from "react-icons/md";
 import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react";
 
 export default function QuestionTable({ Edit, Delete, data }) {
-    const [open, setOpen] = React.useState(false);
+    const [open, setOpen] = useState(false);
+
+    // Фильтруем вопросы, исключая те, у которых type === "writing"
+    const filteredData = useMemo(() => {
+        return data?.filter((question) => question.type !== "writing") || [];
+    }, [data]);
 
     const handleToggle = (index) => {
         setOpen(open === index ? null : index);
     };
 
-
-
-
     return (
         <div className="flex items-start justify-start gap-[15px] flex-col">
-            {data?.map((question, index) => (
+            {filteredData.map((question, index) => (
                 <Accordion key={question.id} open={open === index} className="rounded-[10px]">
                     <AccordionHeader
                         onClick={() => handleToggle(index)}
@@ -48,8 +49,7 @@ export default function QuestionTable({ Edit, Delete, data }) {
                                 {question.answers.map((answerObj, i) => (
                                     <div className="w-full" key={answerObj.id}>
                                         <div
-                                            className={`flex items-end gap-[5px] ${answerObj.is_correct ? "text-[#54f054]" : ""
-                                                }`}
+                                            className={`flex items-end gap-[5px] ${answerObj.is_correct ? "text-[#54f054]" : ""}`}
                                         >
                                             <span className="font-bold">{String.fromCharCode(65 + i)})</span>
                                             <span>{answerObj.answer}</span>

@@ -105,9 +105,16 @@ export default function ReadingPart5() {
                     <button onClick={() => setCreateModal2(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
                         Savol yaratish
                     </button>
-                    <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
-                        Savoli matn yaratish
-                    </button>
+
+                    {!data?.questions?.some(question => question.type === "writing") && (
+                        <button
+                            onClick={() => setCreateModal(true)}
+                            className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]"
+                        >
+                            Savoli matn yaratish
+                        </button>
+                    )}
+
                     {data?.right_text === null && (
                         <button onClick={() => setCreateModalText(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
                             Matn yaratish
@@ -121,7 +128,6 @@ export default function ReadingPart5() {
                 <RQP5Text data={data?.questions} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
                 <QuestionTable Edit={handleEditQuestionModalOpen} Delete={handleDeleteModalOpen} data={data?.questions} />
             </div>
-
             <ParagraphCreate data={data} type={paragraphType} refresh={getQuestion} isOpen={ParagraphModal} onClose={() => setParagraphModal(false)} />
             <QuestionTextCreate refresh={getQuestion} isOpen={createModalText} onClose={() => setCreateModalText(false)} />
             <QuestionTextEdit refresh={getQuestion} data={data} isOpen={EditTextModal} onClose={() => setEditTextModal(false)} />
