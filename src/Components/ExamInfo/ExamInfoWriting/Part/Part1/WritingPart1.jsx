@@ -18,7 +18,7 @@ export default function WritingPart1() {
     const { id } = useParams()
     const [searchParams] = useSearchParams();
     const name = searchParams.get("name");
-    const [data, setData] = useState()
+    const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
 
     const getQuestion = async () => {
@@ -28,13 +28,14 @@ export default function WritingPart1() {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             })            
-            setData(response?.data?.questions[0])
+            setData(response?.data?.questions)
         } catch (error) {
             console.log(error)
         } finally {
             setLoading(false)
         }
     }
+
 
     useEffect(() => {
         getQuestion()
@@ -68,7 +69,7 @@ export default function WritingPart1() {
                     Imtihon ・ Exam Name ・ Reading ・ 1 qism
                 </h1>
                 <div className="flex items-center gap-[10px]">
-                    {data === null && (
+                    {data?.length === 0 && (
                         <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
                             Vazifa yaratish
                         </button>
@@ -83,7 +84,7 @@ export default function WritingPart1() {
                         </h1>
                     </div>
                 ) : (
-                    <WritingText data={data} editModal={handleEditModalOpen} deleteModal={handleDeleteModalOpen} />
+                    <WritingText data={data[0]} editModal={handleEditModalOpen} deleteModal={handleDeleteModalOpen} />
                 )}
             </div>
             <WritingCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />

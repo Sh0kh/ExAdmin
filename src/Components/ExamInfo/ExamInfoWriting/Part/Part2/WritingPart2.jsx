@@ -16,7 +16,7 @@ export default function WritingPart2() {
     const { id } = useParams()
     const [searchParams] = useSearchParams();
     const name = searchParams.get("name");
-    const [data, setData] = useState()
+    const [data, setData] = useState(null)
     const [loading, setLoading] = useState(true)
 
     const getQuestion = async () => {
@@ -26,10 +26,8 @@ export default function WritingPart2() {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             });
-            setData({
-                id: response?.data?.questions[0]?.id,
-                question: response?.data?.questions[0]?.question
-            });
+            setData(response?.data?.questions)
+
         } catch (error) {
             console.log(error);
         } finally {
@@ -49,7 +47,7 @@ export default function WritingPart2() {
 
 
 
-    console.log(EditData);
+
 
 
 
@@ -69,7 +67,7 @@ export default function WritingPart2() {
                     Imtihon ・ {name} ・ Reading ・ 2 qism
                 </h1>
                 <div className="flex items-center gap-[10px]">
-                    {data === null && (
+                    {data?.length === 0 && (
                         <button onClick={() => setCreateModal(true)} className="bg-MainColor text-[white] rounded-[10px] p-[10px] border-[2px] border-MainColor duration-500 px-[20px] hover:text-MainColor hover:bg-[white]">
                             Vazifa yaratish
                         </button>
@@ -84,7 +82,7 @@ export default function WritingPart2() {
                         </h1>
                     </div>
                 ) : (
-                    <WritingText data={data} editModal={handleEditModalOpen} />
+                    <WritingText data={data[0]} editModal={handleEditModalOpen} />
                 )}
             </div>
             <WritingCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />

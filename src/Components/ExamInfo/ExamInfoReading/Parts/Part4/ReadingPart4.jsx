@@ -12,7 +12,6 @@ import QuestionEdit from "../../../ExamComponent/QuestionEdit";
 
 
 export default function ReadingPart4() {
-    const [createModal, setCreateModal] = useState(false)
     const [createModal2, setCreateModal2] = useState(false)
     const [EditModal, setEditModal] = useState(false)
     const [DeleteModal, setDeleteModal] = useState(false)
@@ -94,8 +93,8 @@ export default function ReadingPart4() {
             <ParagraphCreate data={data} type={paragraphType} refresh={getQuestion} isOpen={ParagraphModal} onClose={() => setParagraphModal(false)} />
 
 
-            <QuestionCreate refresh={getQuestion} isOpen={createModal2} onClose={() => setCreateModal2(false)} />
-            <QuestionEdit data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <QuestionCreate type={'quiz'} refresh={getQuestion} isOpen={createModal2} onClose={() => setCreateModal2(false)} />
+            <QuestionEdit type={'quiz'} refresh={getQuestion} data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete refresh={getQuestion} id={deleteId} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
         </div>
     )

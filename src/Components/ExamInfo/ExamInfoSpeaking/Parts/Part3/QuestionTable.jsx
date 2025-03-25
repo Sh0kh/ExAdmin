@@ -1,14 +1,10 @@
-import React, { useState, useMemo } from "react";
-import { MdEdit, MdDelete } from "react-icons/md";
+import React from "react";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react";
 
 export default function QuestionTable({ Edit, Delete, data }) {
-    const [open, setOpen] = useState(false);
-
-    // Фильтруем вопросы, исключая те, у которых type === "writing"
-    const filteredData = useMemo(() => {
-        return data?.filter((question) => question.type !== "writing") || [];
-    }, [data]);
+    const [open, setOpen] = React.useState(false);
 
     const handleToggle = (index) => {
         setOpen(open === index ? null : index);
@@ -16,7 +12,7 @@ export default function QuestionTable({ Edit, Delete, data }) {
 
     return (
         <div className="flex items-start justify-start gap-[15px] flex-col">
-            {filteredData.map((question, index) => (
+            {data.map((question, index) => (
                 <Accordion key={question.id} open={open === index} className="rounded-[10px]">
                     <AccordionHeader
                         onClick={() => handleToggle(index)}
@@ -42,19 +38,8 @@ export default function QuestionTable({ Edit, Delete, data }) {
                     </AccordionHeader>
                     <AccordionBody className="bg-MainColor text-white p-4 rounded-[10px]">
                         <div>
-                            {/* Рендерим текст вопроса */}
-                            <h2>{question.question}</h2>
+                            <h2 dangerouslySetInnerHTML={{ __html: question.question }} />
                             <div className="flex items-start gap-[10px] flex-col mt-[10px]">
-                                {/* Рендеринг ответов */}
-                                {question.answers.map((answerObj, i) => (
-                                    <div className="w-full" key={answerObj.id}>
-                                        <div
-                                            className={`flex items-end gap-[5px] ${answerObj.is_correct ? "text-[#54f054]" : ""}`}
-                                        >
-                                            <span>{answerObj.answer}</span>
-                                        </div>
-                                    </div>
-                                ))}
                             </div>
                         </div>
                     </AccordionBody>

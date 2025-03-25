@@ -112,12 +112,12 @@ export default function ReadingPart2() {
                     </div>
                 )}
             </div>
-            <QuestionCreate refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
-            <QuestionEdit data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <QuestionCreate type={'select'} refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
+            <QuestionEdit refresh={getQuestion} data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete refresh={getQuestion} id={deleteId} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
 
             <QuestionTextCreate refresh={getQuestion} isOpen={createModalText} onClose={() => setCreateModalText(false)} />
-            <QuestionTextEdit refresh={getQuestion} data={data} isOpen={EditTextModal} onClose={() => setEditTextModal(false)} />
+            <QuestionTextEdit type={'select'} refresh={getQuestion} data={data} isOpen={EditTextModal} onClose={() => setEditTextModal(false)} />
         </div>
     )
 }

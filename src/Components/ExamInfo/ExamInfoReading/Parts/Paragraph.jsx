@@ -3,8 +3,8 @@ import { IoEyeSharp } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 
 export default function Paragraph({ Create, data }) {
-    const [showModal, setShowModal] = useState(false); // Управляет модальным окном
-    const { id } = useParams(); // Получаем ID из параметров маршрута
+    const [showModal, setShowModal] = useState(false);
+    const { id } = useParams();
 
     return (
         <div className="w-full">
@@ -42,14 +42,16 @@ export default function Paragraph({ Create, data }) {
                     className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
                 >
                     <div
-                        className="bg-white p-5 rounded-[10px] min-w-[300px] shadow-lg relative max-w-[90%]"
+                        className="bg-white p-5 rounded-[10px] min-w-[300px] overflow-y-auto  shadow-lg relative max-w-[90%]"
                         onClick={(e) => e.stopPropagation()} // Предотвращаем закрытие модального окна при клике внутри
                     >
-                        {data ? (
-                            <div dangerouslySetInnerHTML={{ __html: data }} />
-                        ) : (
-                            <p className="text-gray-500 text-center">Data is empty</p>
-                        )}
+                        <div className="max-h-[600px]">
+                            {data ? (
+                                <div dangerouslySetInnerHTML={{ __html: data }} />
+                            ) : (
+                                <p className="text-gray-500 text-center">Data is empty</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}

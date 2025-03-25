@@ -80,9 +80,9 @@ export default function ListeningPart4() {
                 <PartFoto data={FotoPath} />
                 <QuestionTable data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
             </div>
-            <QuestionCreate refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
+            <QuestionCreate type={'select'} refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
             <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={deleteModal} onClose={() => setDeleteModal(false)} />
-            <QuestionEdit refresh={getQuestion} data={EditData} isOpen={editModal} onClose={() => setEditModal(false)} />
+            <QuestionEdit type={'select'} refresh={getQuestion} data={EditData} isOpen={editModal} onClose={() => setEditModal(false)} />
         </div>
     )
 }

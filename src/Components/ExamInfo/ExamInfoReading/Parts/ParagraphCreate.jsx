@@ -98,7 +98,6 @@ export default function ParagraphCreate({data, isOpen, onClose, refresh, type })
                                     placeholder="Text..."
                                     className="h-[250px]"
                                 />
-
                             </div>
                             <Button onClick={CreateQuestion} className="mt-2 bg-MainColor">
                                 Saqlash

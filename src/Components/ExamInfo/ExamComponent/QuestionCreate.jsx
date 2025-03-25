@@ -4,7 +4,7 @@ import Swal from 'sweetalert2';
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-export default function QuestionCreate({ isOpen, onClose, refresh }) {
+export default function QuestionCreate({ isOpen, onClose, refresh, type }) {
     const { id } = useParams();
     const [question, setQuestion] = useState('');
     const [options, setOptions] = useState([{ answer: '', is_correct: false }]);
@@ -46,7 +46,7 @@ export default function QuestionCreate({ isOpen, onClose, refresh }) {
             const formData = new FormData();
             formData.append("part_id", Number(id));
             formData.append("question", question);
-            formData.append("type", "quiz");
+            formData.append("type", type);
             formData.append("answers", JSON.stringify(options.map(opt => ({
                 answer: opt.answer,
                 is_correct: opt.is_correct ? 1 : 0,

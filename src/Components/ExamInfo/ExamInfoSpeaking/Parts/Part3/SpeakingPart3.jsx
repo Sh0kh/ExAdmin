@@ -3,10 +3,11 @@ import { useParams, useSearchParams } from "react-router-dom";
 import axios from "axios";
 import ReactLoading from "react-loading";
 import SpeakingQuestions from "../SpeakingQuestions";
-import SpeakingQuestionCreate from "../SpeakingQuestionCreate";
 import QuestionDelete from "../../../ExamComponent/QuestionDelete";
-import SpeakingQuestionEdit from "../SpeakingQuestionEdit";
 import PartFoto from "../../../PartFoto";
+import QuestionCreate from "./QuestionCreate";
+import QuestionEdit from "./QuestionEdit";
+import QuestionTable from "./QuestionTable";
 
 
 
@@ -82,7 +83,7 @@ export default function SpeakingPart3() {
             <div className="mt-[20px]">
                 <PartFoto data={foto} />
                 {data && data?.length > 0 ? (
-                    <SpeakingQuestions Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data} />
+                    <QuestionTable Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} data={data} />
                 ) : (
                     <div className="w-full h-[404px] flex items-center justify-center ">
                         <h1 className="font-bold text-[25px]">
@@ -90,8 +91,9 @@ export default function SpeakingPart3() {
                         </h1>
                     </div>
                 )}            </div>
-            <SpeakingQuestionCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
+            <QuestionCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
             <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
-            <SpeakingQuestionEdit data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />        </div>
+            <QuestionEdit data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
+        </div>
     )
 }

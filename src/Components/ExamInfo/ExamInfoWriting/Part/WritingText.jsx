@@ -7,7 +7,7 @@ export default function WritingText({ editModal, data }) {
                 <h1 className="text-[20px]">Matn</h1>
                 <div className="flex items-center gap-[10px]">
                     <button
-                        onClick={() => editModal({ id: data.id, question: data.question })}
+                        onClick={() => editModal({ id: data?.id, question: data?.question })}
                         className="p-2 border-2 border-MainColor text-white bg-MainColor rounded-[5px] hover:bg-transparent hover:text-MainColor"
                     >
                         <MdEdit fontSize={22} />

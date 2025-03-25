@@ -3,15 +3,18 @@ import { Button, Input, Checkbox } from "@material-tailwind/react";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function QuestionEdit({ isOpen, onClose, data, refresh }) {
+export default function QuestionEdit({ isOpen, onClose, data, refresh, type }) {
     const [question, setQuestion] = useState("");
     const [options, setOptions] = useState([]);
 
 
+
+    
+
     useEffect(() => {
         if (data) {
             const initialOptions = data?.answers?.map((answer, index) => ({
-                id: index,
+                id: answer?.id,
                 text: answer.answer,
                 isCorrect: answer.is_correct === 1,
             })) || [];
@@ -48,23 +51,25 @@ export default function QuestionEdit({ isOpen, onClose, data, refresh }) {
         setOptions((prev) => prev.filter((_, i) => i !== index));
     };
 
+    
+
     const editQuestion = async () => {
         try {
             const editData = {
-                type: "writing",
+                question_id: data?.id,
+                type: type,
                 question,
-                answer: options.map((option) => ({
+                answers: options.map((option) => ({
+                    answer_id: option?.id,
                     answer: option.text,
                     is_correct: option.isCorrect ? 1 : 0,
                 })),
             };
-
             await axios.put(`/questions/${data?.id}`, editData, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             });
-
             onClose();
             refresh();
             Swal.fire({
@@ -80,7 +85,7 @@ export default function QuestionEdit({ isOpen, onClose, data, refresh }) {
         } catch (error) {
             Swal.fire({
                 title: "Error!",
-                text: error.response?.data?.message || "Error.",
+                text: error.response?.data?.message || "Error",
                 icon: "error",
                 position: "top-end",
                 timer: 3000,
@@ -99,7 +104,7 @@ export default function QuestionEdit({ isOpen, onClose, data, refresh }) {
                 onClick={onClose}
             >
                 <div
-                    className={`Modal2Content ${isOpen ? "open" : ""}`}
+                    className={`Modal2Content max-h-[90%] overflow-y-auto ${isOpen ? "open" : ""}`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     <div className="p-[10px] pb-[30px]">

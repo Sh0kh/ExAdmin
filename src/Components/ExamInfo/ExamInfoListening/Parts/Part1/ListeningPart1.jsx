@@ -74,10 +74,10 @@ export default function ListeningPart1() {
             </div>
             <div className="mt-[20px]">
                 <PartTitle data={title} />
-                <QuestionTable data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
+                <QuestionTable  data={data} Edit={handleEditModalOpen} Delete={handleDeleteModalOpen} />
             </div>
-            <QuestionCreate refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
-            <QuestionEdit refresh={getQuestion} data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
+            <QuestionCreate type={'quiz'} refresh={getQuestion} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
+            <QuestionEdit type={'quiz'} refresh={getQuestion} data={EditData} isOpen={EditModal} onClose={() => setEditModal(false)} />
             <QuestionDelete refresh={getQuestion} id={deleteId} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
         </div>
     )

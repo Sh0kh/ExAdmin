@@ -134,8 +134,8 @@ export default function ReadingPart5() {
             <RQP5TextCreate refresh={getQuestion} isOpen={createModal} onClose={() => setCreateModal(false)} />
             <QuestionDelete id={deleteId} refresh={getQuestion} isOpen={DeleteModal} onClose={() => setDeleteModal(false)} />
             <RQP5EditText data={EditData} refresh={getQuestion} isOpen={EditModal} onClose={() => setEditModal(false)} />
-            <QuestionCreate refresh={getQuestion} isOpen={createModal2} onClose={() => setCreateModal2(false)} />
-            <QuestionEdit data={EditData} isOpen={EditQuestionModal} onClose={() => setEditQuestionModal(false)} />
+            <QuestionCreate type={'quiz'} refresh={getQuestion} isOpen={createModal2} onClose={() => setCreateModal2(false)} />
+            <QuestionEdit type={'quiz'} data={EditData} isOpen={EditQuestionModal} onClose={() => setEditQuestionModal(false)} />
         </div>
     )
 }
