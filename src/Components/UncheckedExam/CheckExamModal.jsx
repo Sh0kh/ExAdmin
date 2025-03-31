@@ -1,5 +1,5 @@
 import { Button, Input } from '@material-tailwind/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { $api } from '../../utils/axios';
 import Swal from 'sweetalert2';
 import { useNavigate } from 'react-router-dom';
@@ -8,12 +8,29 @@ export default function CheckExamModal({ isOpen, onClose, data }) {
     const [scores, setScores] = useState({});
     const navigate = useNavigate();
 
-    const handleScoreChange = (id, value) => {
-        setScores(prev => ({ ...prev, [id]: Number(value) || 0 }));
+    // Initialize scores structure when data changes
+    useEffect(() => {
+        if (data?.part_scores) {
+            const initialScores = {};
+            data.part_scores.forEach(part => {
+                part.user_answers.forEach(answer => {
+                    // Инициализируем значения как пустые строки вместо 0
+                    initialScores[answer.id] = '';
+                });
+            });
+            setScores(initialScores);
+        }
+    }, [data]);
+
+    const handleScoreChange = (answerId, value) => {
+        // Позволяем сохранять пустую строку для возможности очистки поля
+        setScores(prev => ({ ...prev, [answerId]: value }));
     };
 
     const checkExamSection = async () => {
-        if (!data?.part_scores?.every(part => scores[part.id] !== undefined)) {
+        // Проверка, что все ответы имеют оценки
+        const allAnswers = data?.part_scores?.flatMap(part => part.user_answers) || [];
+        if (allAnswers.length > 0 && !allAnswers.every(answer => scores[answer.id] !== undefined && scores[answer.id] !== '')) {
             return Swal.fire({
                 title: 'Xatolik!',
                 text: 'Barcha ballarni kiriting.',
@@ -33,10 +50,14 @@ export default function CheckExamModal({ isOpen, onClose, data }) {
                 section_score_id: data?.id,
                 parts_scores: data?.part_scores?.map(part => ({
                     part_score_id: part.id,
-                    answers: part.user_answers.map(answer => ({
-                        user_answer_id: answer.id,
-                        score: scores[part.id] ?? 0,
-                    })),
+                    // Всегда отправлять answers, даже если нет ответов
+                    answers: part.user_answers.length > 0
+                        ? part.user_answers.map(answer => ({
+                            user_answer_id: answer.id,
+                            // Преобразуем в число при отправке
+                            score: scores[answer.id] === '' ? 0 : Number(scores[answer.id]),
+                        }))
+                        : [] // Пустой массив для частей без ответов
                 })),
             };
 
@@ -79,20 +100,31 @@ export default function CheckExamModal({ isOpen, onClose, data }) {
                             ✖
                         </button>
                     </div>
-                    <div className='mt-4 space-y-4'>
-                        {data?.part_scores?.map((part, index) => (
+                    <div className='mt-4 space-y-6'>
+                        {data?.part_scores?.map((part, partIndex) => (
                             <div key={part.id} className='p-4 border rounded-lg shadow-sm bg-white'>
-                                <h2 className='text-lg font-medium text-gray-700 mb-2'>
-                                    Vazifa {index + 1}
+                                <h2 className='text-lg font-medium text-gray-700 mb-3'>
+                                    Vazifa {partIndex + 1}
                                 </h2>
-                                <Input
-                                    label="Ball"
-                                    value={scores[part.id] ?? ''}
-                                    onChange={(e) => handleScoreChange(part.id, e.target.value)}
-                                    type="number"
-                                    required
-                                    className="border-gray-300 w-full text-gray-800 bg-white shadow-sm"
-                                />
+
+                                {part.user_answers.length > 0 ? (
+                                    <div className='space-y-4'>
+                                        {part.user_answers.map((answer, answerIndex) => (
+                                            <div key={answer.id} className='border rounded-lg p-3 bg-gray-50'>
+                                                <Input
+                                                    label={`Javob ${answerIndex + 1} uchun ball`}
+                                                    value={scores[answer.id] ?? ''}
+                                                    onChange={(e) => handleScoreChange(answer.id, e.target.value)}
+                                                    type="number"
+                                                    required
+                                                    className="border-gray-300 w-full text-gray-800 bg-white shadow-sm"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                ) : (
+                                    <p className='text-gray-500 italic'>Bu vazifada javoblar mavjud emas</p>
+                                )}
                             </div>
                         ))}
                     </div>
