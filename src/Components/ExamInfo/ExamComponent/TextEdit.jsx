@@ -15,7 +15,14 @@ export default function TextEdit({ isOpen, onClose, refresh, data }) {
     useEffect(() => {
         if (isOpen && data) {
             setContent(data.question || "");
-            setAnswers(data.answers || []);
+            // Преобразуем answers, чтобы использовать answer_id вместо id
+            setAnswers(
+                (data.answers || []).map((answer) => ({
+                    answer_id: answer.id, // Переименовываем id в answer_id
+                    answer: answer.answer,
+                    is_correct: answer.is_correct,
+                }))
+            );
         }
     }, [isOpen, data]);
 
@@ -30,6 +37,7 @@ export default function TextEdit({ isOpen, onClose, refresh, data }) {
         const limitedAnswers = Math.min(matchCount, 8);
         setAnswers((prevAnswers) =>
             Array.from({ length: limitedAnswers }, (_, index) => ({
+                answer_id: prevAnswers[index]?.answer_id || null, // Используем answer_id
                 answer: prevAnswers[index]?.answer || "",
                 is_correct: "1",
             }))
@@ -39,24 +47,25 @@ export default function TextEdit({ isOpen, onClose, refresh, data }) {
     const handleAnswerChange = (index, value) => {
         const updatedAnswers = [...answers];
         updatedAnswers[index].answer = value;
-        updatedAnswers[index].is_correct = "1"; // Передаем значение в is_correct
+        updatedAnswers[index].is_correct = "1";
         setAnswers(updatedAnswers);
     };
 
     const EditQuestion = async () => {
         try {
-            const formData = new FormData();
-            formData.append("part_id", Number(id));
-            formData.append("type", "writing");
-            formData.append("question", content);
-
-            // Преобразование структуры ответов для отправки
-            formData.append("answers", JSON.stringify(answers));
-
-            await axios.put(`/questions/${data?.id}`, formData, {
+            const payload = {
+                part_id: Number(id),
+                type: "writing",
+                question: content,
+                answers: answers.map((answer) => ({
+                    answer_id: answer.answer_id, // Отправляем answer_id
+                    answer: answer.answer,
+                    is_correct: answer.is_correct,
+                })),
+            };
+            await axios.put(`/questions/${data?.id}`, payload, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
-                    "Content-Type": "multipart/form-data",
                 },
             });
 

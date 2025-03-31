@@ -1,9 +1,64 @@
 import { Button, Input } from '@material-tailwind/react';
-import { useState } from 'react';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import { fetchData } from '../../Redux/MyInformation';
+import { useDispatch, useSelector } from 'react-redux';
+
 
 export default function EditModal({ isOpen, onClose }) {
     const [name, setName] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState('')
+    const [surname, setSurname] = useState('')
+    const dispatch = useDispatch();
+    const { data, status } = useSelector((state) => state.data);
+    if (status === 'idle') {
+        dispatch(fetchData());
+    }
+
+    useEffect(() => {
+        if (data) {
+            setName(data.name)
+            setSurname(data.surname)
+        }
+    }, [data])
+
+
+    const EditProfile = async () => {
+        try {
+            const EditData = {
+                name: name,
+                surname: surname
+            };
+            await axios.put(`https://backend.examify.uz/api/user/update-information`, EditData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                },
+            })
+            Swal.fire({
+                title: 'Muvaffaqiyatli!',
+                icon: 'success',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error!',
+                text: error.response?.data?.message || 'Error.',
+                icon: 'error',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+    }
+
     return (
         <>
             <div className={`Modal ${isOpen ? "open" : ""}`} onClick={onClose} >
@@ -29,18 +84,20 @@ export default function EditModal({ isOpen, onClose }) {
                                 required
                                 className="border-MainColor text-[#2c3e50] bg-[]"
                             />
-                            <div className='mt-[20px]'>
+                            <div className='mt-[10px]'>
                                 <Input
-                                    label="Telefon"
-                                    value={phoneNumber}
-                                    onChange={(e) => setPhoneNumber(e.target.value)}
+                                    label="Familiya"
+                                    value={surname}
+                                    onChange={(e) => setSurname(e.target.value)}
                                     color="#2c3e50"
                                     type="text"
                                     required
-                                    className="border-MainColor text-[#2c3e50] bg-[]"
+                                    className="border-MainColor  text-[#2c3e50] bg-[]"
                                 />
                             </div>
+
                             <Button
+                                onClick={EditProfile}
                                 fullWidth
                                 color="white"
                                 className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"

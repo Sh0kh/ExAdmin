@@ -25,7 +25,7 @@ export default function AdminsEdit({ isOpen, onClose, data }) {
     }
 
     const options = {
-      phone_number: phone,
+      phone_number: `+998${phone}`,
       password,
     };
 

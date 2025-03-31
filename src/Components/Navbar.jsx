@@ -1,31 +1,41 @@
 import { FiMenu } from "react-icons/fi";
-import { useDispatch } from "react-redux";
 import { useState, useRef, useEffect } from "react";
 import { toggleState } from "../Redux/NavbarSlice";
 import { NavLink, useNavigate } from "react-router-dom";
+import { fetchData } from '../Redux/MyInformation';
+import { useDispatch, useSelector } from 'react-redux';
+
+
 
 export default function Navbar() {
     const dispatch = useDispatch();
+    const { data, status } = useSelector((state) => state.data);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const modalRef = useRef(null);
     const fotoRef = useRef(null);
     const navigate = useNavigate()
+    const role = localStorage.getItem('role')
 
+
+
+    if (status === 'idle' && role === 'ADMIN') {
+        dispatch(fetchData());
+    }
+    const Exit = () => {
+        localStorage.clear()
+        navigate('/login')
+    }
     const handleToggle = () => {
-        dispatch(toggleState()); // переключаем состояние
+        dispatch(toggleState());
     };
-
     const handleModalToggle = () => {
         setIsModalOpen((prev) => !prev);
     };
-
     const handleOutsideClick = (event) => {
-        // Проверка, если клик был вне модала и не на аватарке
         if (modalRef.current && !modalRef.current.contains(event.target) && !fotoRef.current.contains(event.target)) {
             setIsModalOpen(false);
         }
     };
-
     useEffect(() => {
         if (isModalOpen) {
             document.addEventListener("click", handleOutsideClick);
@@ -56,11 +66,11 @@ export default function Navbar() {
                     </div>
                 </div>
                 <div className="relative flex items-center gap-[10px] text-[white] cursor-pointer">
-                    <span>John Doe</span>
+                    <span>{data?.name}</span>
                     <div
-                        ref={fotoRef} // Ссылка на аватарку
+                        ref={fotoRef}
                         className="w-[50px] h-[50px] rounded-[50%] bg-[white] border-[2px] border-[white]"
-                        onClick={handleModalToggle} // Открытие/закрытие модала
+                        onClick={handleModalToggle}
                     >
                         <img
                             src={Foto}
@@ -68,20 +78,20 @@ export default function Navbar() {
                             className="rounded-[50%]"
                         />
                     </div>
-
-                    {/* Плавное появление модала */}
                     {isModalOpen && (
                         <div
-                            ref={modalRef} // Ссылка на модал
+                            ref={modalRef}
                             className="bg-MainColor top-[70px] z-30 right-[-12px] absolute rounded-[10px] p-[8px] transition-opacity duration-500 opacity-100"
-                            style={{ animation: 'fadeIn 0.5s ease-out' }} // Добавляем анимацию открытия
+                            style={{ animation: 'fadeIn 0.5s ease-out' }}
                         >
-                            <NavLink to={'/profile'}>
-                                <button className="w-[100px] p-[8px] flex items-center justify-start rounded-[10px] hover:bg-[white] hover:text-MainColor duration-300">
-                                    Profil
-                                </button>
-                            </NavLink>
-                            <button className="w-[100px] p-[8px] flex items-center justify-start rounded-[10px] hover:bg-[white] hover:text-MainColor duration-300">
+                            {role === "ADMIN" && (
+                                <NavLink to={'/profile'}>
+                                    <button className="w-[100px] p-[8px] flex items-center justify-start rounded-[10px] hover:bg-[white] hover:text-MainColor duration-300">
+                                        Profil
+                                    </button>
+                                </NavLink>
+                            )}
+                            <button onClick={Exit} className="w-[100px] p-[8px] flex items-center justify-start rounded-[10px] hover:bg-[white] hover:text-MainColor duration-300">
                                 Chiqish
                             </button>
                         </div>

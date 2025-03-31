@@ -1,10 +1,11 @@
 import { Card, CardBody } from "@material-tailwind/react";
-import { MdEdit } from "react-icons/md";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { $api } from "../../utils/axios";
 import { useTeacherRender } from "../../store/renders";
 import { AdminsEditModal } from "./AdminsEditModal";
+import ReactLoading from "react-loading";
+
 
 export default function AdminsTable({ setEditModal, setEditModalData }) {
   const [teachers, setTeachers] = useState([]);
@@ -30,10 +31,14 @@ export default function AdminsTable({ setEditModal, setEditModalData }) {
     setEditModal(true)
   };
 
-  if (loading) {
-    return <div className="text-center py-12">Yuklanyapti...</div>;
-  }
 
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen w-full">
+        <ReactLoading type="spinningBubbles" color="#000" height={100} width={100} />
+      </div>
+    );
+  }
   return (
     <Card className="mt-6 shadow-none p-0">
       <CardBody className="p-0">

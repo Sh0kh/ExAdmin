@@ -79,6 +79,7 @@ function Login() {
         });
         navigate('/')
         localStorage.setItem('token', response.data.message);
+        localStorage.setItem('role', 'ADMIN')
         setActive(true);
       } catch (error) {
         Swal.fire({

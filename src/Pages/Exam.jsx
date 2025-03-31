@@ -78,7 +78,6 @@ export default function Exam() {
                     <h1>Bo`sh</h1>
                 </div>
             )}
-
             {/* Модалки */}
             <ExamCreate refresh={getExams} isOpen={CreateModal} onClose={() => setCreateModal(false)} />
             <ExamEdit refresh={getExams} isOpen={EditModal} onClose={() => setEditModal(false)} data={selectedId} />

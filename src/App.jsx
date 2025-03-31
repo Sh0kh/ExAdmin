@@ -23,7 +23,7 @@ import ExamInfoWritnig from "./Pages/ExamInfoWriting";
 import WritingPart1 from "./Components/ExamInfo/ExamInfoWriting/Part/Part1/WritingPart1";
 import Profile from "./Pages/Profile";
 import Payment from "./Pages/Payment";
-import WritingCheck from "./Pages/WritingCheck";
+import UncheckedExam from "./Pages/UncheckedExam";
 import SpeakingCheck from "./Pages/SpeakingCheck";
 import WritingPerson from "./Components/ExamCheck/Writing/WritingPerson";
 import SpeakingPerson from "./Components/ExamCheck/Speaking/SpeakingPerson";
@@ -36,6 +36,10 @@ import SpeakingPart1 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part1/Sp
 import SpeakingPart3 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part3/SpeakingPart3";
 import WritingPart2 from "./Components/ExamInfo/ExamInfoWriting/Part/Part2/WritingPart2";
 import SpeakingPart4 from "./Components/ExamInfo/ExamInfoSpeaking/Parts/Part4/SpeakingPart4";
+import Price from "./Pages/Price";
+import UncheckedExamInfo from "./Pages/UncheckedExamInfo";
+import UncheckendExamCheck from "./Pages/UncheckendExamCheck";
+import TeacherLogin from "./Pages/TeacherLogin";
 
 function ProtectedRoute() {
   const token = localStorage.getItem("token");
@@ -56,17 +60,21 @@ function App() {
       <Routes>
         <Route path="/" element={<AppLayout />}>
           <Route path="/login" element={<Login />} />
+          <Route path="/teacher/login" element={<TeacherLogin />} />
           <Route element={<ProtectedRoute />}>
             <Route element={<MainLayout />}>
               <Route index element={<Home />} />
               <Route path="/admins" element={<Admins />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/payments" element={<Payment />} />
-              <Route path="/writing/check" element={<WritingCheck />} />
+              <Route path="/uncheckend/exam" element={<UncheckedExam />} />
+              <Route path="/uncheckend/exam/:ID" element={<UncheckedExamInfo />} />
+              <Route path="/uncheckend/exam/:ExamID/:SectionID" element={<UncheckendExamCheck />} />
               <Route path="/speaking/check" element={<SpeakingCheck />} />
               <Route path="/writing/check/person" element={<WritingPerson />} />
               <Route path="/speaking/check/person" element={<SpeakingPerson />} />
               <Route path="/reyting" element={<Reyting />} />
+              <Route path="/price" element={<Price />} />
 
               <Route path="/exam" element={<Exam />} />
               <Route path="/exam/listening/:id" element={<ExamInfoLestinenig />} />

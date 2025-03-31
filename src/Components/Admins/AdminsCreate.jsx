@@ -32,7 +32,7 @@ export default function AdminsCreate({ isOpen, onClose }) {
     const options = {   
       name,
       surname,
-      phone_number: phone,
+      phone_number:`+998${phone}`,
       password,
     };
 
