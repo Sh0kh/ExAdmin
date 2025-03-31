@@ -22,12 +22,12 @@ export function AdminsEditModal({ data }) {
   const { increment } = useTeacherRender();
 
   const onSubmit = async () => {
-    if (phone.length !== 9) {
-      setError("Telefon raqam 9 ta raqamdan iborat bo‘lishi kerak.");
+    if (phone.length !== 13) {
+      setError("Telefon raqam 12 ta raqamdan iborat bo‘lishi kerak.");
       return;
     }
 
-    if (password.length < 8) {
+    if (password.length < 5) {
       setError("Parol kamida 8 ta belgidan iborat bo‘lishi kerak.");
       return;
     }
@@ -75,8 +75,7 @@ export function AdminsEditModal({ data }) {
                 placeholder="*******"
                 value={phone}
                 onChange={(e) => {
-                  const value = e.target.value.replace(/\D/g, "").slice(0, 9); // Faqat raqam va 7 ta uzunlikni saqlash
-                  setPhone(value);
+                  setPhone(e.target.value);
                 }}
                 color="#2c3e50"
                 type="text"
@@ -105,7 +104,7 @@ export function AdminsEditModal({ data }) {
               color="white"
               className="bg-MainColor mt-[15px] transition duration-500 border-MainColor border-[2px] text-white hover:bg-transparent hover:text-MainColor"
             >
-              Yaratish
+              Yangilash
             </Button>
           </div>
         </DialogBody>

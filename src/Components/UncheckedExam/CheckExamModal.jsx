@@ -6,13 +6,27 @@ import { useNavigate } from 'react-router-dom';
 
 export default function CheckExamModal({ isOpen, onClose, data }) {
     const [scores, setScores] = useState({});
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const handleScoreChange = (id, value) => {
-        setScores(prev => ({ ...prev, [id]: value }));
+        setScores(prev => ({ ...prev, [id]: Number(value) || 0 }));
     };
 
     const checkExamSection = async () => {
+        if (!data?.part_scores?.every(part => scores[part.id] !== undefined)) {
+            return Swal.fire({
+                title: 'Xatolik!',
+                text: 'Barcha ballarni kiriting.',
+                icon: 'warning',
+                position: 'top-end',
+                timer: 3000,
+                timerProgressBar: true,
+                showCloseButton: true,
+                toast: true,
+                showConfirmButton: false,
+            });
+        }
+
         try {
             const sectionBall = {
                 exam_id: data?.exam_id,
@@ -21,10 +35,11 @@ export default function CheckExamModal({ isOpen, onClose, data }) {
                     part_score_id: part.id,
                     answers: part.user_answers.map(answer => ({
                         user_answer_id: answer.id,
-                        score: scores[part.id] || 0
-                    }))
-                }))
+                        score: scores[part.id] ?? 0,
+                    })),
+                })),
             };
+
             await $api.post(`/teacher/check`, sectionBall);
             Swal.fire({
                 title: 'Muvaffaqiyatli!',
@@ -36,14 +51,13 @@ export default function CheckExamModal({ isOpen, onClose, data }) {
                 toast: true,
                 showConfirmButton: false,
             });
-            onClose()
-            setTimeout(() => {
-                navigate(-1)
-            }, 1000)
+
+            onClose();
+            setTimeout(() => navigate(-1), 1000);
         } catch (error) {
             Swal.fire({
-                title: 'Error!',
-                text: error.response?.data?.message || 'Error.',
+                title: 'Xatolik!',
+                text: error.response?.data?.message || 'Xatolik yuz berdi.',
                 icon: 'error',
                 position: 'top-end',
                 timer: 3000,
@@ -73,7 +87,7 @@ export default function CheckExamModal({ isOpen, onClose, data }) {
                                 </h2>
                                 <Input
                                     label="Ball"
-                                    value={scores[part.id] || ''}
+                                    value={scores[part.id] ?? ''}
                                     onChange={(e) => handleScoreChange(part.id, e.target.value)}
                                     type="number"
                                     required
