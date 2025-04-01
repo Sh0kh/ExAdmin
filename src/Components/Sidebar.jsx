@@ -1,15 +1,13 @@
 import React from 'react';
-import { IoPeople } from "react-icons/io5";
 import { FaNoteSticky } from "react-icons/fa6";
 import logo from '../Imagse/Examify_Dark.jpg';
 import { AiFillHome } from "react-icons/ai";
 import { NavLink, useLocation } from 'react-router-dom';
 import { IoPeopleSharp } from "react-icons/io5";
 import { useSelector } from 'react-redux';
-import { MdPayments } from "react-icons/md";
 import { GiReceiveMoney } from "react-icons/gi";
-import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react";
-import { FiChevronDown, FiChevronUp } from "react-icons/fi";
+import { MdOutlinePayments } from "react-icons/md";
+
 import { FaAddressBook } from "react-icons/fa";
 
 const Sidebar = () => {
@@ -20,7 +18,7 @@ const Sidebar = () => {
     const Home = location.pathname === '/';
     const Exam = location.pathname === '/exam';
     const Admins = location.pathname === '/admins';
-    const Payment = location.pathname === '/payment';
+    const Payment = location.pathname === '/payments';
     const Price = location.pathname === '/price';
     const Test = location.pathname === '/exam/check';
 
@@ -55,6 +53,13 @@ const Sidebar = () => {
             icon: (<GiReceiveMoney fontSize={30} />),
             path: '/price',
             pathName: Price,
+        },
+        {
+            role: 'ADMIN', // Только для администраторов
+            title: 'Tolovlar',
+            icon: (<MdOutlinePayments fontSize={30} />),
+            path: '/payments',
+            pathName: Payment,
         },
         {
             role: 'TEACHER', // Только для преподавателей
