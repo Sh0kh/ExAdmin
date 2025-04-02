@@ -40,6 +40,7 @@ import Price from "./Pages/Price";
 import UncheckedExamInfo from "./Pages/UncheckedExamInfo";
 import UncheckendExamCheck from "./Pages/UncheckendExamCheck";
 import TeacherLogin from "./Pages/TeacherLogin";
+import UserMeassage from "./Pages/UserMeassage";
 
 function ProtectedRoute() {
   const token = localStorage.getItem("token");
@@ -75,6 +76,8 @@ function App() {
               <Route path="/speaking/check/person" element={<SpeakingPerson />} />
               <Route path="/reyting" element={<Reyting />} />
               <Route path="/price" element={<Price />} />
+              <Route path="/user/message" element={<UserMeassage />} />
+
 
               <Route path="/exam" element={<Exam />} />
               <Route path="/exam/listening/:id" element={<ExamInfoLestinenig />} />

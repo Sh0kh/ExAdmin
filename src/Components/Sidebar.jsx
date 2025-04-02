@@ -7,6 +7,8 @@ import { IoPeopleSharp } from "react-icons/io5";
 import { useSelector } from 'react-redux';
 import { GiReceiveMoney } from "react-icons/gi";
 import { MdOutlinePayments } from "react-icons/md";
+import { MdMessage } from "react-icons/md";
+
 
 import { FaAddressBook } from "react-icons/fa";
 
@@ -19,6 +21,7 @@ const Sidebar = () => {
     const Exam = location.pathname === '/exam';
     const Admins = location.pathname === '/admins';
     const Payment = location.pathname === '/payments';
+    const Message = location.pathname === '/user/message';
     const Price = location.pathname === '/price';
     const Test = location.pathname === '/exam/check';
 
@@ -60,6 +63,13 @@ const Sidebar = () => {
             icon: (<MdOutlinePayments fontSize={30} />),
             path: '/payments',
             pathName: Payment,
+        },
+        {
+            role: 'ADMIN', // Только для администраторов
+            title: 'Xabarlar',
+            icon: (<MdMessage fontSize={30} />),
+            path: '/user/message',
+            pathName: Message,
         },
         {
             role: 'TEACHER', // Только для преподавателей

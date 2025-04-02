@@ -144,7 +144,6 @@ export default function PaymentTable() {
             </div>
         );
     }
-
     return (
         <Card className="mt-6 shadow-none p-0">
             <CardBody className="p-0">
