@@ -3,7 +3,10 @@ import { $api } from "../utils/axios";
 import { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import { MdDelete } from "react-icons/md";
+import { FaEye } from "react-icons/fa";
+
 import UserMessageDelete from "../Components/UserMessage/UserMessageDelete";
+import MessageDetailModal from "../Components/UserMessage/MessageDetailModal";
 
 export default function UserMeassage() {
 
@@ -14,6 +17,8 @@ export default function UserMeassage() {
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [deleteModal, setDeleteModal] = useState(false)
     const [deleteData, setDeleteData] = useState(null)
+    const [infoModal, setInfoModal] = useState(false)
+    const [infoData, setInfoData] = useState([])
     const fetchData = async () => {
         try {
             const response = await $api.get(`/messages`);
@@ -196,6 +201,13 @@ export default function UserMeassage() {
                                                 <div className="flex items-center gap-[10px]">
                                                     <button
 
+                                                        onClick={() => { setInfoModal(true); setInfoData(row) }}
+                                                        className="p-[8px] rounded-[10px] bg-[white] w-[100%] flex items-center justify-center duration-300 text-MainColor border-[white] border-[2px] hover:text-[white] hover:bg-transparent"
+                                                    >
+                                                        <FaEye fontSize={20} />
+                                                    </button>
+                                                    <button
+
                                                         onClick={() => { setDeleteModal(true); setDeleteData(row?.id) }} // Передает id для удаления
                                                         className="p-[8px] rounded-[10px] bg-[white] w-[100%] flex items-center justify-center duration-300 text-MainColor border-[white] border-[2px] hover:text-[white] hover:bg-transparent"
                                                     >
@@ -226,6 +238,7 @@ export default function UserMeassage() {
                 </div>
             )}
             <UserMessageDelete isOpen={deleteModal} onClose={() => setDeleteModal(false)} id={deleteData} refresh={fetchData} />
+            <MessageDetailModal isOpen={infoModal} onClose={()=>setInfoModal(false)} data={infoData} />
         </div>
     );
 }
