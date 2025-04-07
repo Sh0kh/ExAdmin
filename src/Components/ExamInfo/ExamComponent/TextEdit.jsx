@@ -15,7 +15,6 @@ export default function TextEdit({ isOpen, onClose, refresh, data }) {
     useEffect(() => {
         if (isOpen && data) {
             setContent(data.question || "");
-            // Преобразуем answers, чтобы использовать answer_id вместо id
             setAnswers(
                 (data.answers || []).map((answer) => ({
                     answer_id: answer.id, // Переименовываем id в answer_id
