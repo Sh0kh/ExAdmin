@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://maktab.ideal-study.uz/api';
+axios.defaults.baseURL = 'https://examify.itlive.uz/api';
 
 export default axios;
 
 export const $api = axios.create({
-    baseURL: 'https://maktab.ideal-study.uz/api',
+    baseURL: 'https://examify.itlive.uz/api',
     headers: {
         'Content-Type': 'application/json',
     },
