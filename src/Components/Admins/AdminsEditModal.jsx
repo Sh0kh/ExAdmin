@@ -8,7 +8,7 @@ import {
   IconButton,
   Input,
 } from "@material-tailwind/react";
-import { FaPencilAlt } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
 import { useTeacherRender } from "../../store/renders";
 import { $api } from "../../utils/axios";
 import { sweetAlert } from "../../utils/sweetalert";
@@ -62,9 +62,11 @@ export function AdminsEditModal({ data }) {
 
   return (
     <>
-      <IconButton onClick={handleOpen}>
-        <FaPencilAlt className="h-4 w-4" />
-      </IconButton>
+      <button
+        className="text-MainColor bg-[white] border-[white] duration-300 rounded-[5px] p-[5px] border-[2px] hover:bg-transparent hover:text-white"
+        onClick={handleOpen}>
+        <MdEdit fontSize={22} />
+      </button>
       <Dialog size="sm" open={open} handler={handleOpen}>
         <DialogHeader className=" p-4">Yangilash</DialogHeader>
         <DialogBody className="p-4">

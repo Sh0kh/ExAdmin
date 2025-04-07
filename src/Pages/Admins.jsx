@@ -2,12 +2,11 @@ import { useState } from "react";
 import AdminsCreate from "../Components/Admins/AdminsCreate";
 import AdminsTable from "../Components/Admins/AdminsTable";
 import AdminsEdit from "../Components/Admins/AdminsEdit";
+import AdminDelete from "../Components/Admins/AdminDelete";
 
 export default function Admins() {
 
     const [CreateModal, setCreateModal] = useState(false)
-    const [EditModal, setEditModal] = useState(false)
-    const [EditModalData, setEditModalData] = useState([]);
 
     return (
         <div className="Admins p-[15px]">
@@ -20,10 +19,9 @@ export default function Admins() {
                 </button>
             </div>
             <div>
-                <AdminsTable setEditModalData={setEditModalData} setEditModal={setEditModal} />
+                <AdminsTable />
             </div>
             <AdminsCreate isOpen={CreateModal} onClose={() => setCreateModal(false)} />
-            <AdminsEdit data={EditModalData} isOpen={EditModal} onClose={() => setEditModal(false)} />
         </div>
     )
 }

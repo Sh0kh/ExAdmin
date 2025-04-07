@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Input } from '@material-tailwind/react';
+import { Button } from '@material-tailwind/react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../utils/axios';
 import Swal from 'sweetalert2';
@@ -11,10 +11,16 @@ const TeacherLogin = () => {
     const [showPassword, setShowPassword] = useState(false);
     const navigate = useNavigate();
 
+    const handleLoginChange = (e) => {
+        // Получаем только цифры и ограничиваем до 9 символов
+        const value = e.target.value.replace(/\D/g, "").slice(0, 9);
+        setLogin(value);
+    };
+
     const Login = async () => {
         try {
             const data = {
-                phone_number: login,
+                phone_number: '+998' + login, // Добавляем префикс к номеру при отправке
                 password: password
             };
             const response = await axios.post('/teacher/login', data);
@@ -51,24 +57,27 @@ const TeacherLogin = () => {
             <div className="w-full max-w-md p-6 bg-[#1B2A3D] text-[white] rounded-lg shadow-lg text-center">
                 <h2 className="text-2xl font-semibold text-center mb-6">Kirish</h2>
                 <div className="space-y-4">
-                    <Input
-                        label="Phone"
-                        value={login}
-                        onChange={(e) => setLogin(e.target.value)}
-                        color="white"
-                        type="text"
-                        required
-                        className="border-white text-white bg-[#2c3e50]"
-                    />
                     <div className="relative">
-                        <Input
-                            label="Password"
+                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 text-white pointer-events-none">
+                            +998
+                        </div>
+                        <input
+                            type="text"
+                            placeholder="******"
+                            value={login}
+                            onChange={handleLoginChange}
+                            required
+                            className="w-full p-2.5 pl-12 bg-[#2c3e50] border border-white rounded text-white focus:outline-none focus:ring-1 focus:ring-white"
+                        />
+                    </div>
+                    <div className="relative">
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder="Password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            color="white"
-                            type={showPassword ? "text" : "password"}
                             required
-                            className="border-white text-white bg-[#2c3e50]"
+                            className="w-full p-2.5 bg-[#2c3e50] border border-white rounded text-white focus:outline-none focus:ring-1 focus:ring-white"
                         />
                         <button
                             type="button"

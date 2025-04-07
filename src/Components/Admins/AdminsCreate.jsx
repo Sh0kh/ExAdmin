@@ -29,10 +29,10 @@ export default function AdminsCreate({ isOpen, onClose }) {
       return;
     }
 
-    const options = {   
+    const options = {
       name,
       surname,
-      phone_number:`+998${phone}`,
+      phone_number: `+998${phone}`,
       password,
     };
 
@@ -56,6 +56,12 @@ export default function AdminsCreate({ isOpen, onClose }) {
       setError(error.response?.data?.message || "Xatolik yuz berdi!");
       sweetAlert("Xatolik", "error");
     }
+  };
+
+  const handlePhoneChange = (e) => {
+    // Получаем только цифры из введенного значения и ограничиваем до 9 цифр
+    const numericValue = e.target.value.replace(/\D/g, "").slice(0, 9);
+    setPhone(numericValue);
   };
 
   return (
@@ -106,21 +112,23 @@ export default function AdminsCreate({ isOpen, onClose }) {
                   required
                   className="border-MainColor text-[#2c3e50]"
                 />
-                
-                <Input
-                  label="Telefon raqam"
-                  placeholder="*********"
-                  value={phone}
-                  onChange={(e) => {
-                    const value = e.target.value.replace(/\D/g, "").slice(0, 9); // Faqat raqam va 7 ta uzunlikni saqlash
-                    setPhone(value);
-                  }}
-                  color="#2c3e50"
-                  type="text"
-                  required
-                  className="border-MainColor text-[#2c3e50]"
-                />
 
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none text-[#2c3e50]">
+                    +998
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="*********"
+                    value={phone}
+                    onChange={(e) => {
+                      const value = e.target.value.replace(/\D/g, "").slice(0, 9); // Только цифры и максимум 9 символов
+                      setPhone(value);
+                    }}
+                    className="border border-MainColor text-[#2c3e50] pl-12 w-full p-2 rounded"
+                    required
+                  />
+                </div>
                 <Input
                   label="Parol"
                   value={password}
