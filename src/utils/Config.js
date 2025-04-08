@@ -1,5 +1,5 @@
 const CONFIG = {
-    API_URL: 'https://maktab.ideal-study.uz/',
+    API_URL: 'https://examify.itlive.uz/',
   };
   
   export default CONFIG;
